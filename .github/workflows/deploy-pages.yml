@@ -17,6 +17,8 @@ jobs:
   deploy:
     environment:
       name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
 
     steps:
@@ -24,14 +26,17 @@ jobs:
 
       - name: Build site
         run: |
+          rm -rf _site
           mkdir -p _site
 
-          # Copy your homepage / site files, if you have them
           cp index.html _site/ 2>/dev/null || true
+          cp CNAME _site/ 2>/dev/null || true
           cp -r assets _site/ 2>/dev/null || true
 
-          # Copy PDFs from /slides into the published root
-          cp slides/*.pdf _site/
+          find slides -maxdepth 1 -type f -name "*.pdf" -exec cp {} _site/ \;
+
+          echo "Contents of _site:"
+          find _site -maxdepth 2 -type f -print
 
       - uses: actions/configure-pages@v5
 
@@ -39,4 +44,5 @@ jobs:
         with:
           path: _site
 
-      - uses: actions/deploy-pages@v4
+      - id: deployment
+        uses: actions/deploy-pages@v4
