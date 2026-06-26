@@ -1,0 +1,189 @@
+```{ojs}
+eddington_bins = {
+  const xMin = 1;
+  const xMax = 30;
+  const nBins = 80;
+  const logMin = Math.log10(xMin);
+  const logMax = Math.log10(xMax);
+  const step = (logMax - logMin) / nBins;
+
+  return Array.from({ length: nBins + 1 }, (_, i) =>
+    Math.pow(10, logMin + i * step)
+  );
+}
+```
+<!-- viewof --- a visible input widget -->
+```{ojs}
+viewof eddington_cut_index = {
+  const minIndex = d3.bisectLeft(eddington_bins, 1.2);
+  const maxIndex = d3.bisectRight(eddington_bins, 4) - 1;
+  const value = d3.bisectLeft(eddington_bins, 2);
+  const root = html`<label style="display: flex; align-items: center; gap: 0.55em;">
+    <span>Flux cut</span>
+    <input type="range" min=${minIndex} max=${maxIndex} step="1" value=${value}>
+    <span style="font-variant-numeric: tabular-nums; min-width: 2.8em;"></span>
+  </label>`;
+  const input = root.querySelector("input");
+  const output = root.querySelector("span:last-child");
+
+  root.value = input.valueAsNumber;
+  output.textContent = eddington_bins[root.value].toFixed(2);
+  input.addEventListener("input", () => {
+    root.value = input.valueAsNumber;
+    output.textContent = eddington_bins[root.value].toFixed(2);
+    root.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+
+  return root;
+}
+```
+
+```{ojs}
+eddington_cut = eddington_bins[eddington_cut_index]
+```
+
+```{ojs}
+viewof eddington_noise = {
+  const root = html`<label style="display: flex; align-items: center; gap: 0.55em;">
+    <span>Noise</span>
+    <input class="eddington-noise-slider" type="range" min="0" max="1.5" step="0.025" value="0.0">
+    <span style="font-variant-numeric: tabular-nums; min-width: 2.8em;"></span>
+  </label>`;
+  const input = root.querySelector("input");
+  const output = root.querySelector("span:last-child");
+
+  root.value = input.valueAsNumber;
+  output.textContent = root.value.toFixed(2);
+  input.addEventListener("input", () => {
+    root.value = input.valueAsNumber;
+    output.textContent = root.value.toFixed(2);
+    root.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+
+  return root;
+}
+```
+
+```{ojs}
+eddington_samples = {
+  const n = 60000;
+  const x = 3;
+  const sLow = 1;
+  const rng = d3.randomLcg(42);
+
+  return Array.from({ length: n }, () => {
+    const trueFlux = sLow * Math.pow(1 - rng(), -1 / x);
+    return { trueFlux };
+  });
+}
+```
+
+```{ojs}
+eddington_histogram = {
+  const xMin = 1;
+  const xMax = 30;
+  const bins = eddington_bins;
+  const nBins = bins.length - 1;
+
+  function histogram(values, series, color, opacity) {
+    const counts = Array(nBins).fill(0);
+    for (const value of values) {
+      if (value < xMin || value >= xMax) continue;
+      const i = Math.min(
+        nBins - 1,
+        d3.bisectRight(bins, value) - 1
+      );
+      counts[i] += 1;
+    }
+    return counts.map((count, i) => ({
+      x0: bins[i],
+      x1: bins[i + 1],
+      count,
+      series,
+      color,
+      opacity
+    }));
+  }
+
+  const fluxError =
+    eddington_noise === 0
+      ? () => 0
+      : d3.randomNormal.source(d3.randomLcg(314))(0, eddington_noise);
+  const measuredSources = eddington_samples.map((d) => {
+    const sampledFlux = d.trueFlux + fluxError();
+    return {
+      trueFlux: d.trueFlux,
+      sampledFlux,
+      included: sampledFlux > eddington_cut
+    };
+  });
+  const includedSources = measuredSources.filter((d) => d.included);
+  const trueFlux = eddington_samples.map((d) => d.trueFlux);
+  const sampledFlux = includedSources.map((d) => d.sampledFlux);
+
+  return [
+    ...histogram(trueFlux, "True distribution", "#598aea", 0.3),
+    ...histogram(sampledFlux, "Sampled above cut", "#ff583e", 0.4)
+  ];
+}
+```
+
+```{ojs}
+Plot.plot({
+  width: 720,
+  height: 410,
+  marginLeft: 72,
+  marginRight: 24,
+  marginTop: 34,
+  marginBottom: 58,
+  style: {
+    fontFamily: "Fira Sans, Helvetica, sans-serif",
+    fontSize: "15px"
+  },
+  x: {
+    type: "log",
+    domain: [1, 30],
+    ticks: [1, eddington_cut, 10, 20],
+    tickFormat: (d) =>
+      d === eddington_cut ? d.toFixed(2) : d3.format("~g")(d),
+    label: "Flux density (brightness)"
+  },
+  y: {
+    grid: false,
+    label: "Count in each flux bin"
+  },
+  marks: [
+    Plot.rectY(eddington_histogram, {
+      x1: "x0",
+      x2: "x1",
+      y1: 0,
+      y2: "count",
+      fill: "color",
+      fillOpacity: "opacity",
+      inset: 0
+    }),
+    Plot.line(eddington_histogram, {
+      x: "x0",
+      y: "count",
+      z: "series",
+      curve: "step-after",
+      stroke: "color",
+      strokeWidth: 3,
+      strokeOpacity: 0.95
+    }),
+    Plot.ruleX([eddington_cut], {
+      stroke: "#222",
+      strokeDasharray: "5,4",
+      strokeOpacity: 0.55
+    }),
+    Plot.ruleY([0], {
+      stroke: "#000",
+      strokeWidth: 2.8
+    }),
+    Plot.ruleX([1], {
+      stroke: "#000",
+      strokeWidth: 2.8
+    })
+  ]
+})
+```
