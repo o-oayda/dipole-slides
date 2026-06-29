@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 from html import escape
+import json
 from pathlib import Path
 import re
 import sys
+from datetime import date
 
 
 ACRONYMS = {"asa", "asm", "apska", "csiro", "emu", "ska"}
+SCRIPT_DIR = Path(__file__).resolve().parent
+DEFAULT_TEMPLATE = SCRIPT_DIR.parent / "templates" / "index.html"
+DEFAULT_METADATA = SCRIPT_DIR.parent / "talks.json"
 
 
 def readable_slug(path):
@@ -26,28 +31,110 @@ def html_title(index):
     return title or readable_slug(index.parent)
 
 
+def format_month(value):
+    parsed = date.fromisoformat(value)
+    return f"{parsed:%B} {parsed:%Y}"
+
+
+def load_metadata(path=DEFAULT_METADATA):
+    if not path.exists():
+        raise FileNotFoundError(f"Missing talk metadata: {path}")
+    try:
+        metadata = json.loads(path.read_text())
+    except json.JSONDecodeError as error:
+        raise ValueError(f"Invalid talk metadata JSON in {path}: {error}") from error
+    if not isinstance(metadata, dict):
+        raise ValueError(f"Talk metadata must be a JSON object: {path}")
+    return metadata
+
+
+def apply_metadata(items, metadata):
+    missing = [item["href"] for item in items if item["href"] not in metadata]
+    if missing:
+        missing_list = "\n".join(f"  - {href}" for href in missing)
+        raise ValueError(f"Missing talk metadata for:\n{missing_list}")
+
+    known_hrefs = {item["href"] for item in items}
+    extra = sorted(set(metadata) - known_hrefs)
+    if extra:
+        extra_list = "\n".join(f"  - {href}" for href in extra)
+        raise ValueError(f"Talk metadata exists for unknown slides:\n{extra_list}")
+
+    enriched = []
+    for item in items:
+        entry = metadata[item["href"]]
+        if not isinstance(entry, dict):
+            raise ValueError(f"Metadata for {item['href']} must be an object")
+
+        event = entry.get("event")
+        title = entry.get("title")
+        iso_date = entry.get("date")
+        if not event or not isinstance(event, str):
+            raise ValueError(f"Metadata for {item['href']} must include an event")
+        if not title or not isinstance(title, str):
+            raise ValueError(f"Metadata for {item['href']} must include a title")
+        if not iso_date or not isinstance(iso_date, str):
+            raise ValueError(f"Metadata for {item['href']} must include a date")
+
+        try:
+            sort_date = date.fromisoformat(iso_date)
+        except ValueError as error:
+            raise ValueError(
+                f"Metadata date for {item['href']} must be YYYY-MM-DD: {iso_date}"
+            ) from error
+
+        enriched.append(
+            {
+                **item,
+                "event": event,
+                "title": title,
+                "date": iso_date,
+                "date_label": format_month(iso_date),
+                "sort_date": sort_date,
+            }
+        )
+
+    return sorted(enriched, key=lambda item: (item["sort_date"], item["event"]), reverse=True)
+
+
 def section(title, items):
     if not items:
         return ""
     rows = "\n".join(
-        f"""          <li class="talk">
-            <a href="{escape(item["href"])}">
-              <span class="talk-title">{escape(item["title"])}</span>
-              <span class="talk-meta">{escape(item["format"])}</span>
+        f"""          <li class="talk-card">
+            <a class="talk-link" href="{escape(item["href"])}">
+              <span class="talk-marker" aria-hidden="true">&gt;</span>
+              <span class="talk-body">
+                <span class="talk-date">{escape(item["date_label"])}</span>
+                <span class="talk-event">{escape(item["event"])}</span>
+                <span class="talk-title">{escape(item["title"])}</span>
+              </span>
             </a>
           </li>"""
         for item in items
     )
     anchor = title.lower()
-    return f"""      <section aria-labelledby="{escape(anchor)}-heading">
-        <h2 id="{escape(anchor)}-heading">{escape(title)}</h2>
-        <ul class="talk-list">
+    prompt = (
+        "find talks -type f -name '*.html'"
+        if title == "Interactive"
+        else "find talks -type f -name '*.pdf'"
+    )
+    return f"""        <section class="talk-section" aria-labelledby="{escape(anchor)}-heading">
+          <p class="prompt-line">$ {escape(prompt)}</p>
+          <h2 id="{escape(anchor)}-heading">{escape(title)}</h2>
+          <ul class="talk-list">
 {rows}
-        </ul>
-      </section>"""
+          </ul>
+        </section>"""
 
 
-def build_index(site):
+def render_template(sections, template=DEFAULT_TEMPLATE):
+    if not template.exists():
+        raise FileNotFoundError(f"Missing index template: {template}")
+    return template.read_text().replace("{{ sections }}", sections)
+
+
+def build_index(site, template=DEFAULT_TEMPLATE, metadata_path=DEFAULT_METADATA):
     decks = [
         {
             "title": html_title(index),
@@ -66,112 +153,16 @@ def build_index(site):
         for pdf in sorted(site.glob("*.pdf"))
     ]
 
-    return f"""<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Slides</title>
-    <style>
-      :root {{
-        --bg: #f7f6f3;
-        --fg: #26383c;
-        --muted: #657477;
-        --line: #d8d3c8;
-        --accent: #eb811b;
-        --card: #ffffff;
-      }}
+    talks = apply_metadata([*decks, *pdfs], load_metadata(metadata_path))
+    decks = [item for item in talks if item["format"] == "reveal.js"]
+    pdfs = [item for item in talks if item["format"] == "PDF"]
 
-      body {{
-        background: var(--bg);
-        color: var(--fg);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        line-height: 1.5;
-        margin: 0;
-      }}
-
-      main {{
-        margin: 0 auto;
-        max-width: 860px;
-        padding: 4rem 1.5rem;
-      }}
-
-      header {{
-        border-bottom: 1px solid var(--line);
-        margin-bottom: 2rem;
-        padding-bottom: 1.5rem;
-      }}
-
-      h1 {{
-        font-size: clamp(2rem, 4vw, 3.2rem);
-        line-height: 1.05;
-        margin: 0 0 0.6rem;
-      }}
-
-      h2 {{
-        font-size: 1rem;
-        letter-spacing: 0.04em;
-        margin: 2rem 0 0.75rem;
-        text-transform: uppercase;
-      }}
-
-      p {{
-        color: var(--muted);
-        margin: 0;
-      }}
-
-      .talk-list {{
-        display: grid;
-        gap: 0.75rem;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }}
-
-      .talk {{
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: 6px;
-      }}
-
-      .talk a {{
-        color: inherit;
-        display: grid;
-        gap: 0.2rem;
-        padding: 1rem 1.1rem;
-        text-decoration: none;
-      }}
-
-      .talk a:hover,
-      .talk a:focus-visible {{
-        box-shadow: inset 4px 0 0 var(--accent);
-        outline: none;
-      }}
-
-      .talk-title {{
-        font-weight: 650;
-      }}
-
-      .talk-meta {{
-        color: var(--muted);
-        font-size: 0.95rem;
-      }}
-    </style>
-  </head>
-  <body>
-    <main>
-      <header>
-        <h1>Slides</h1>
-        <p>Academic talks and conference presentations by Oliver Oayda.</p>
-      </header>
-
-{section("Interactive", decks)}
-
-{section("PDF", pdfs)}
-    </main>
-  </body>
-</html>
-"""
+    sections = "\n\n".join(
+        content
+        for content in (section("Interactive", decks), section("PDF", pdfs))
+        if content
+    )
+    return render_template(sections, template)
 
 
 def main():

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Academic talks and conference presentations by Oliver Oayda.">
+    <title>Slides | Oliver Oayda</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300..800&display=swap");
+
+      :root {
+        --background: #1a170f;
+        --foreground: #eceae5;
+        --accent: #eec35e;
+        --secondary: #b0a58a;
+        --surface: #211d13;
+        --surface-border: rgba(238, 195, 94, 0.28);
+        --surface-hover: color-mix(in srgb, var(--foreground) 10%, var(--surface));
+        --font-size: 1rem;
+        --line-height: 1.54em;
+      }
+
+      html {
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--foreground);
+        font-family:
+          "JetBrains Mono",
+          Monaco,
+          Consolas,
+          "Ubuntu Mono",
+          monospace;
+        font-size: var(--font-size);
+        line-height: var(--line-height);
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      a:focus-visible {
+        outline: 1px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      h1,
+      h2,
+      p,
+      ul {
+        margin: 25px 0;
+      }
+
+      h1 {
+        position: relative;
+        color: var(--accent);
+        font-size: clamp(2rem, 6vw, 2.8rem);
+        line-height: 1.2;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 3px dotted var(--accent);
+      }
+
+      h1::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 2px;
+        width: 100%;
+        border-bottom: 3px dotted var(--accent);
+      }
+
+      h2 {
+        color: var(--accent);
+        font-size: 1.15rem;
+        line-height: 1.3;
+        margin: 8px 0 14px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        max-width: 864px;
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 40px;
+      }
+
+      .header {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header__inner {
+        display: flex;
+        align-items: center;
+      }
+
+      .header__logo {
+        display: flex;
+        flex: 1;
+        align-items: center;
+      }
+
+      .header__logo::after {
+        content: "";
+        display: block;
+        flex: 1;
+        height: 35px;
+        margin-left: 10px;
+        background: repeating-linear-gradient(
+          90deg,
+          var(--accent),
+          var(--accent) 2px,
+          transparent 0,
+          transparent 10px
+        );
+      }
+
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        background: var(--accent);
+        color: var(--background);
+        padding: 5px 10px;
+        font-weight: 700;
+      }
+
+      .navigation-menu {
+        margin: 20px 0 0;
+      }
+
+      .navigation-toggle {
+        display: none;
+      }
+
+      .navigation-menu__inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.9rem 1.25rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .navigation-menu__inner li::before {
+        content: none;
+      }
+
+      .content {
+        flex: 1;
+      }
+
+      .prompt-line {
+        color: var(--secondary);
+        margin-bottom: 20px;
+      }
+
+      .page {
+        margin-top: 30px;
+      }
+
+      .talk-section {
+        margin-top: 49px;
+      }
+
+      .lead {
+        color: var(--foreground);
+      }
+
+      .muted-line,
+      .talk-title {
+        color: var(--secondary);
+      }
+
+      .talk-list {
+        display: grid;
+        gap: 10px;
+        list-style: none;
+        margin: 14px 0 0;
+        padding: 0;
+      }
+
+      .talk-card {
+        margin: 0;
+      }
+
+      .talk-link {
+        color: var(--foreground);
+        display: grid;
+        grid-template-columns: 1ch minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        min-height: 86px;
+        padding: 12px 16px;
+        border: 1px solid transparent;
+        background: color-mix(in srgb, var(--surface) 72%, transparent);
+        transition:
+          background-color 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease;
+      }
+
+      .talk-link:hover,
+      .talk-link:focus-visible {
+        background: var(--surface-hover);
+        color: #ffffff;
+        text-decoration: none;
+      }
+
+      .talk-marker {
+        color: var(--accent);
+        line-height: 1.4;
+      }
+
+      .talk-body {
+        display: grid;
+        gap: 2px;
+        min-width: 0;
+      }
+
+      .talk-date {
+        color: var(--accent);
+      }
+
+      .talk-event {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        font-weight: 700;
+      }
+
+      .talk-title {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        font-size: 0.92rem;
+        line-height: 1.42;
+      }
+
+      .footer {
+        color: var(--secondary);
+        margin-top: 56px;
+        padding-top: 20px;
+        border-top: 1px solid var(--surface-border);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 700px) {
+        .container {
+          padding: 28px 20px;
+        }
+
+        .header__inner {
+          gap: 12px;
+        }
+
+        .header__logo::after {
+          margin-left: 8px;
+        }
+
+        .navigation-toggle {
+          display: inline-flex;
+          flex: none;
+          width: 2.25rem;
+          height: 2.25rem;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 0.24rem;
+          padding: 0;
+          border: 1px solid var(--surface-border);
+          border-radius: 3px;
+          background: color-mix(in srgb, var(--surface) 72%, transparent);
+          color: var(--accent);
+          cursor: pointer;
+        }
+
+        .navigation-toggle span {
+          display: block;
+          width: 1.1rem;
+          height: 2px;
+          background: currentColor;
+        }
+
+        .navigation-menu {
+          display: none;
+          margin-top: 12px;
+        }
+
+        .navigation-menu--open {
+          display: block;
+        }
+
+        .navigation-menu__inner {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 0;
+          padding: 8px 0;
+          border-top: 1px solid var(--surface-border);
+          border-bottom: 1px solid var(--surface-border);
+        }
+
+        .navigation-menu__inner a {
+          display: block;
+          padding: 0.46rem 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="header__inner">
+          <div class="header__logo">
+            <a href="/" aria-label="Slides homepage">
+              <span class="logo">slides@cosmology:~$</span>
+            </a>
+          </div>
+          <button
+            class="navigation-toggle"
+            type="button"
+            aria-controls="primary-navigation"
+            aria-expanded="false"
+            aria-label="Open navigation menu"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <nav class="navigation-menu" id="primary-navigation" aria-label="Primary">
+          <ul class="navigation-menu__inner">
+            <li><a href="https://oayda.net/">About</a></li>
+            <li><a href="https://oayda.net/research">Research</a></li>
+            <li><a href="https://oayda.net/publications">Publications</a></li>
+            <li><a href="https://oayda.net/#talks">Talks</a></li>
+            <li><a href="/">Slides</a></li>
+            <li><a href="https://oayda.net/#education">Education</a></li>
+            <li><a href="https://oayda.net/cv.pdf">CV.pdf</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main class="content">
+        <article class="page">
+          <p class="prompt-line">$ ls talks/</p>
+          <h1>Slides</h1>
+          <p class="lead">Academic talks and conference presentations by Oliver Oayda.</p>
+
+{{ sections }}
+        </article>
+      </main>
+
+      <footer class="footer">
+        <span>slides.oayda.net</span>
+      </footer>
+    </div>
+    <script>
+      const navigationToggle = document.querySelector(".navigation-toggle");
+      const navigationMenu = document.querySelector(".navigation-menu");
+
+      navigationToggle?.addEventListener("click", () => {
+        const isOpen = navigationToggle.getAttribute("aria-expanded") === "true";
+        navigationToggle.setAttribute("aria-expanded", String(!isOpen));
+        navigationToggle.setAttribute("aria-label", isOpen ? "Open navigation menu" : "Close navigation menu");
+        navigationMenu?.classList.toggle("navigation-menu--open", !isOpen);
+      });
+
+      navigationMenu?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navigationToggle?.setAttribute("aria-expanded", "false");
+          navigationToggle?.setAttribute("aria-label", "Open navigation menu");
+          navigationMenu?.classList.remove("navigation-menu--open");
+        });
+      });
+    </script>
+  </body>
+</html>

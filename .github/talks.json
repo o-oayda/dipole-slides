@@ -1,0 +1,52 @@
+{
+  "asa-asm-2026/": {
+    "event": "ASA ASM, Canberra",
+    "title": "Wising up to CatWISE: Using simulation-based inference to measure the cosmic dipole",
+    "date": "2026-07-07"
+  },
+  "apska-2026.pdf": {
+    "event": "APSKA, Thailand",
+    "title": "The Cosmic Dipole Tension: View with the SKA",
+    "date": "2026-02-10"
+  },
+  "cosmoverse_2025.pdf": {
+    "event": "Cosmoverse@Istanbul",
+    "title": "Confronting the Cosmic Dipole Tension: Systematics, Surveys and Statistics",
+    "date": "2025-06-26"
+  },
+  "csiro-2024.pdf": {
+    "event": "CSIRO S&A Colloquium",
+    "title": "Probing the cosmic dipole in the radio sky: Using ASKAP for cosmology",
+    "date": "2024-08-24"
+  },
+  "emu-cosmo-2024.pdf": {
+    "event": "EMU Cosmology Meeting 2024",
+    "title": "Probing the cosmic dipole in galaxy surveys: ASKAP and beyond",
+    "date": "2024-11-21"
+  },
+  "emu_meeting_2024.pdf": {
+    "event": "EMU Meeting 2024",
+    "title": "Probing the cosmic dipole in the radio sky: RACS-low and NVSS",
+    "date": "2024-08-14"
+  },
+  "euclid-dipole-seminar.pdf": {
+    "event": "Euclid Dipole Seminar",
+    "title": "Wising up to CatWISE: Measuring the cosmic dipole with simulation-based inference",
+    "date": "2026-06-03"
+  },
+  "maxent2025.pdf": {
+    "event": "MaxEnt, New Zealand",
+    "title": "Decoding the cosmic dipole with likelihood-based and likelihood-free inference",
+    "date": "2025-12-16"
+  },
+  "symposium-jun-2026.pdf": {
+    "event": "HDR Student Symposium",
+    "title": "Wising up to CatWISE: Using simulation-based inference to measure the cosmic dipole",
+    "date": "2026-06-02"
+  },
+  "symposium-nov-2024.pdf": {
+    "event": "HDR Student Symposium",
+    "title": "Multipoles in Galaxy Surveys: Journeying to Higher Orders",
+    "date": "2024-11-08"
+  }
+}
