@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Oliver Oayda">
-  <meta name="dcterms.date" content="2026-06-02">
+  <meta name="dcterms.date" content="2026-07-07">
   <title>Wising up to CatWISE</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -232,7 +232,7 @@ Oliver Oayda
     </div>
 </div>
 
-  <p class="date">June 2, 2026</p>
+  <p class="date">July 7, 2026</p>
 </section>
 <section>
 <section id="simulation-based-inference-resolves-systematics." class="title-slide slide level1 center">
@@ -341,14 +341,6 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <div class="fragment fade-in-then-out" data-fragment-index="3">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figures/amp_lit_values.svg" style="width:55.0%"></p>
-<figcaption><em>Wait…</em></figcaption>
-</figure>
-</div>
-</div>
-<div class="fragment fade-in-then-out" data-fragment-index="4">
-<div class="quarto-figure quarto-figure-center">
-<figure>
 <p><img data-src="figures/amp_lit_values_sec_only.svg" style="width:55.0%"></p>
 <figcaption>Focus: Secrest+21/22, CatWISE2020</figcaption>
 </figure>
@@ -401,7 +393,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <p><img data-src="figures/wise.png" style="width:80.0%"></p>
 </div><div class="column center-column" style="width:50%;">
 <div class="r-stack">
-<div class="fragment fade-in-then-out">
+<div class="fragment fade-in-then-out" data-fragment-index="1">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="figures/wise_sphere1.png" style="width:90.0%"></p>
@@ -409,7 +401,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </figure>
 </div>
 </div>
-<div class="fragment fade-in-then-out">
+<div class="fragment fade-in-then-out" data-fragment-index="2">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="figures/wise_sphere2.png" style="width:90.0%"></p>
@@ -417,7 +409,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </figure>
 </div>
 </div>
-<div class="fragment fade-in-then-out">
+<div class="fragment fade-in" data-fragment-index="3">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="figures/wise_sphere3.png" style="width:90.0%"></p>
@@ -427,7 +419,9 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </div>
 </div>
 </div></div>
+<div class="fragment" data-fragment-index="4">
 <p>Obeys a <a href=".alert">scanning law</a> over the survey’s lifetime</p>
+</div>
 </section>
 <section id="photometric-errors" class="slide level2 top-slide" style="--top-slide-padding: 1.5em;">
 <h2>Photometric Errors</h2>
@@ -704,6 +698,8 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </section>
 <section id="simulations" class="slide level2 top-slide eddington-interactive" style="--top-slide-padding: 0.75em;">
 <h2>Simulations</h2>
+<div class="columns double-columns">
+<div class="column" style="width:40%;">
 <link rel="stylesheet" href="plugins/reveal-flowchart/revealjs-diagram.css">
 <script src="plugins/reveal-flowchart/revealjs-diagram.js"></script>
 <script>
@@ -751,6 +747,26 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
   }
   </script>
 </div>
+</div><div class="column center-column" style="width:60%;">
+<div class="r-stack wide-stack">
+<div class="fragment fade-in-then-out" data-fragment-index="4">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catsim_dmap.svg" style="width:100.0%"></p>
+<figcaption>Simulated quasar map</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in" data-fragment-index="5">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catwise_density_map.svg" style="width:100.0%"></p>
+<figcaption>Actual quasar map</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
 </section>
 <section id="one-thing-left-to-do" class="slide level2 moses-viewport fragment-background-zoom" data-background-image="figures/moses_commandment_v2.jpg" data-background-size="cover" data-background-position="center top" data-background-zoom-fragment="0" data-background-zoom-scale="1.75" data-background-zoom-duration="1200" data-background-zoom-origin="0% 0%">
 <h2>One Thing Left To Do…</h2>
@@ -773,27 +789,6 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
       This is <strong>S</strong>imulation-<strong>B</strong>ased <strong>I</strong>nference.
     </li>
   </ul>
-</div>
-</section>
-<section id="posterior-predictive" class="slide level2 top-slide" style="--top-slide-padding: 2em;">
-<h2>Posterior Predictive</h2>
-<div class="r-stack wide-stack">
-<div class="fragment fade-out" data-fragment-index="1">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="figures/catsim_dmap.svg" style="width:85.0%"></p>
-<figcaption>Simulated quasar map (CatSIM)</figcaption>
-</figure>
-</div>
-</div>
-<div class="fragment fade-in-then-out" data-fragment-index="1">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="figures/catwise_density_map.svg" style="width:85.0%"></p>
-<figcaption>Actual quasar map (CatWISE)</figcaption>
-</figure>
-</div>
-</div>
 </div>
 </section>
 <section id="catsim-results" class="slide level2">
@@ -1380,7 +1375,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
         }
       });
       </script>
-    <script>window.titleFooterConfig = {logoHeight: "6.15rem", institutionLogo: "figures/usyd-logo.svg", eventImage: "figures/usyd_quad.jpg", eventTitle: "HDR Student Symposium", supervisors: ["Geraint Lewis", "Tara Murphy"]};</script>
+    <script>window.titleFooterConfig = {logoHeight: "7rem", institutionLogo: "figures/usyd-logo.svg", eventImage: "figures/ASACrux_black.png", eventTitle: "ASA ASM", supervisors: ["Geraint Lewis", "Tara Murphy"]};</script>
     
 
 <script src="slides_files/libs/quarto-contrib/metropolis-beamer-1.0.0/add_header.js" defer="true"></script>
