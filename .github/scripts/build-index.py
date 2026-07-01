@@ -31,9 +31,9 @@ def html_title(index):
     return title or readable_slug(index.parent)
 
 
-def format_month(value):
+def format_day_month(value):
     parsed = date.fromisoformat(value)
-    return f"{parsed:%B} {parsed:%Y}"
+    return f"{parsed.day} {parsed:%B}"
 
 
 def load_metadata(path=DEFAULT_METADATA):
@@ -89,7 +89,8 @@ def apply_metadata(items, metadata):
                 "event": event,
                 "title": title,
                 "date": iso_date,
-                "date_label": format_month(iso_date),
+                "date_label": format_day_month(iso_date),
+                "year": str(sort_date.year),
                 "sort_date": sort_date,
             }
         )
@@ -97,34 +98,52 @@ def apply_metadata(items, metadata):
     return sorted(enriched, key=lambda item: (item["sort_date"], item["event"]), reverse=True)
 
 
-def section(title, items):
+def render_action(action):
+    return f"""                <a class="talk-action" href="{escape(action["href"])}">
+                  <img src="{escape(action["icon"])}" alt="" width="16" height="16">
+                  <span>{escape(action["label"])}</span>
+                </a>"""
+
+
+def talks_list(items):
     if not items:
         return ""
-    rows = "\n".join(
-        f"""          <li class="talk-card">
-            <a class="talk-link" href="{escape(item["href"])}">
+    years = []
+    for item in items:
+        if item["year"] not in years:
+            years.append(item["year"])
+
+    groups = []
+    for year in years:
+        rows = "\n".join(
+            f"""            <li class="talk-card">
+            <article class="talk-link">
               <span class="talk-marker" aria-hidden="true">&gt;</span>
               <span class="talk-body">
                 <span class="talk-date">{escape(item["date_label"])}</span>
                 <span class="talk-event">{escape(item["event"])}</span>
                 <span class="talk-title">{escape(item["title"])}</span>
               </span>
-            </a>
+              <span class="talk-actions" aria-label="Talk formats">
+{chr(10).join(render_action(action) for action in item["actions"])}
+              </span>
+            </article>
           </li>"""
-        for item in items
-    )
-    anchor = title.lower()
-    prompt = (
-        "find talks -type f -name '*.html'"
-        if title == "Interactive"
-        else "find talks -type f -name '*.pdf'"
-    )
-    return f"""        <section class="talk-section" aria-labelledby="{escape(anchor)}-heading">
-          <p class="prompt-line">$ {escape(prompt)}</p>
-          <h2 id="{escape(anchor)}-heading">{escape(title)}</h2>
-          <ul class="talk-list">
+            for item in items
+            if item["year"] == year
+        )
+        groups.append(
+            f"""          <section class="talk-year-section" aria-labelledby="talks-{escape(year)}-heading">
+            <h2 id="talks-{escape(year)}-heading">{escape(year)}</h2>
+            <ul class="talk-list">
 {rows}
-          </ul>
+            </ul>
+          </section>"""
+        )
+
+    return f"""        <section class="talk-section" aria-label="Talks">
+          <p class="prompt-line">$ find talks -type f | sort --key=year</p>
+{chr(10).join(groups)}
         </section>"""
 
 
@@ -139,30 +158,45 @@ def build_index(site, template=DEFAULT_TEMPLATE, metadata_path=DEFAULT_METADATA)
         {
             "title": html_title(index),
             "href": f"{index.parent.name}/",
-            "format": "reveal.js",
+            "actions": [
+                {
+                    "href": f"{index.parent.name}/",
+                    "label": "reveal.js",
+                    "icon": "assets/icons/reveal_favicon.svg",
+                }
+            ],
         }
         for index in sorted(site.glob("*/index.html"))
     ]
+
+    for deck in decks:
+        pdf = site / deck["href"] / "slides.pdf"
+        if pdf.exists():
+            deck["actions"].append(
+                {
+                    "href": f"{deck['href']}slides.pdf",
+                    "label": "PDF",
+                    "icon": "assets/icons/pdf_favicon.svg",
+                }
+            )
 
     pdfs = [
         {
             "title": readable_slug(pdf),
             "href": pdf.name,
-            "format": "PDF",
+            "actions": [
+                {
+                    "href": pdf.name,
+                    "label": "PDF",
+                    "icon": "assets/icons/pdf_favicon.svg",
+                }
+            ],
         }
         for pdf in sorted(site.glob("*.pdf"))
     ]
 
     talks = apply_metadata([*decks, *pdfs], load_metadata(metadata_path))
-    decks = [item for item in talks if item["format"] == "reveal.js"]
-    pdfs = [item for item in talks if item["format"] == "PDF"]
-
-    sections = "\n\n".join(
-        content
-        for content in (section("Interactive", decks), section("PDF", pdfs))
-        if content
-    )
-    return render_template(sections, template)
+    return render_template(talks_list(talks), template)
 
 
 def main():

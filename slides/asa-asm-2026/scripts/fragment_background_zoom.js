@@ -1,5 +1,5 @@
 (() => {
-  const slideSelector = ".fragment-background-zoom";
+  const slideSelector = "section.fragment-background-zoom";
   const backgroundSelector = ".reveal .backgrounds .slide-background";
   const activeClass = "fragment-background-zoomed";
 
@@ -32,6 +32,7 @@
     background.style.removeProperty("--fragment-background-zoom-scale");
     background.style.removeProperty("--fragment-background-zoom-duration");
     background.style.removeProperty("--fragment-background-zoom-origin");
+    background.style.removeProperty("--fragment-background-zoom-translate-y");
   }
 
   function updateFragmentBackgroundZoom() {
@@ -57,6 +58,35 @@
     background.classList.toggle(activeClass, currentFragmentStep(slide) >= triggerStep);
   }
 
+  function applyZoomState(slide, background, zoomed) {
+    if (!slide || !background) return;
+
+    const scale = configuredNumber(slide, "backgroundZoomScale", 1.15);
+    const duration = configuredNumber(slide, "backgroundZoomDuration", 2000);
+    const origin = slide.dataset.backgroundZoomOrigin ?? "50% 50%";
+
+    background.style.setProperty("--fragment-background-zoom-scale", scale);
+    background.style.setProperty("--fragment-background-zoom-duration", `${duration}ms`);
+    background.style.setProperty("--fragment-background-zoom-origin", origin);
+    background.classList.toggle(activeClass, zoomed);
+  }
+
+  function syncPrintPages() {
+    document.querySelectorAll(".pdf-page").forEach((page) => {
+      const slide = page.querySelector(slideSelector);
+      const background = page.querySelector(".slide-background.fragment-background-zoom");
+
+      if (!slide || !background) return;
+
+      const triggerStep = configuredNumber(slide, "backgroundZoomFragment", 1);
+      applyZoomState(slide, background, currentFragmentStep(slide) >= triggerStep);
+      background.style.setProperty(
+        "--fragment-background-zoom-translate-y",
+        slide.dataset.backgroundPrintTranslateY ?? "0px"
+      );
+    });
+  }
+
   function installFragmentBackgroundZoom() {
     updateFragmentBackgroundZoom();
     window.Reveal?.on?.("ready", updateFragmentBackgroundZoom);
@@ -70,4 +100,8 @@
   } else {
     installFragmentBackgroundZoom();
   }
+
+  window.FragmentBackgroundZoom = {
+    syncPrintPages
+  };
 })();

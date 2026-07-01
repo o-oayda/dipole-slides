@@ -177,6 +177,14 @@
         margin-top: 49px;
       }
 
+      .talk-year-section {
+        margin-top: 36px;
+      }
+
+      .talk-year-section:first-of-type {
+        margin-top: 0;
+      }
+
       .lead {
         color: var(--foreground);
       }
@@ -201,24 +209,13 @@
       .talk-link {
         color: var(--foreground);
         display: grid;
-        grid-template-columns: 1ch minmax(0, 1fr);
+        grid-template-columns: 1ch minmax(0, 1fr) auto;
         gap: 12px;
         align-items: start;
         min-height: 86px;
         padding: 12px 16px;
         border: 1px solid transparent;
         background: color-mix(in srgb, var(--surface) 72%, transparent);
-        transition:
-          background-color 160ms ease,
-          border-color 160ms ease,
-          color 160ms ease;
-      }
-
-      .talk-link:hover,
-      .talk-link:focus-visible {
-        background: var(--surface-hover);
-        color: #ffffff;
-        text-decoration: none;
       }
 
       .talk-marker {
@@ -247,6 +244,40 @@
         overflow-wrap: anywhere;
         font-size: 0.92rem;
         line-height: 1.42;
+      }
+
+      .talk-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .talk-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        min-height: 32px;
+        padding: 5px 10px;
+        border: 1px solid var(--surface-border);
+        background: transparent;
+        color: var(--accent);
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .talk-action:hover,
+      .talk-action:focus-visible {
+        background: color-mix(in srgb, var(--accent) 15%, transparent);
+        text-decoration: none;
+      }
+
+      .talk-action img {
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        flex: none;
       }
 
       .footer {
@@ -315,6 +346,16 @@
         .navigation-menu__inner a {
           display: block;
           padding: 0.46rem 0;
+        }
+
+        .talk-link {
+          grid-template-columns: 1ch minmax(0, 1fr);
+        }
+
+        .talk-actions {
+          grid-column: 2;
+          justify-content: flex-start;
+          margin-top: 6px;
         }
       }
     </style>

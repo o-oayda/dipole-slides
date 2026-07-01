@@ -99,7 +99,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-2402ff13f5ca10cb1e31d92c077ea094.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-0908ac2989e0015bffbe4373dc35b6a9.css">
   <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -239,7 +239,7 @@ Oliver Oayda
 <h1>Simulation-based inference resolves systematics.</h1>
 
 </section>
-<section id="the-kinematic-dipole" class="slide level2 top-slide" style="--top-slide-padding: 2em;">
+<section id="the-kinematic-dipole" class="slide level2 top-slide" style="--top-slide-padding: 2.5em; --sphere-figure-max-height: 550px">
 <h2>The Kinematic Dipole</h2>
 <div class="r-stack">
 <div class="fragment fade-out" data-fragment-index="1">
@@ -253,7 +253,7 @@ Oliver Oayda
 <div class="fragment fade-in-then-out" data-fragment-index="1">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figures/cmb_sphere1.png" style="width:55.0%"></p>
+<p><img data-src="figures/cmb_sphere1.png" class="sphere-figure"></p>
 <figcaption>CMB as a sphere</figcaption>
 </figure>
 </div>
@@ -261,7 +261,7 @@ Oliver Oayda
 <div class="fragment fade-in-then-out" data-fragment-index="2">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figures/earth_in_cmb.png" style="width:55.0%"></p>
+<p><img data-src="figures/earth_in_cmb.png" class="sphere-figure"></p>
 <figcaption>CMB as a sphere (Earth inside)</figcaption>
 </figure>
 </div>
@@ -269,7 +269,7 @@ Oliver Oayda
 <div class="fragment fade-in-then-out" data-fragment-index="3">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figures/earth_in_cmb_arrow.png" style="width:55.0%"></p>
+<p><img data-src="figures/earth_in_cmb_arrow.png" class="sphere-figure"></p>
 <figcaption>We’re moving through the Universe!</figcaption>
 </figure>
 </div>
@@ -277,14 +277,14 @@ Oliver Oayda
 <div class="fragment fade-in-then-out" data-fragment-index="4">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figures/earth_in_dipole.png" style="width:55.0%"></p>
+<p><img data-src="figures/earth_in_dipole.png" class="sphere-figure"></p>
 <figcaption>Kinematic dipole as a sphere (Earth inside)</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="counting-galaxies" class="slide level2 top-slide" style="--top-slide-padding: 1.5em;">
+<section id="counting-galaxies" class="slide level2 top-slide fit-captioned-figure" style="--top-slide-padding: 2em; --captioned-figure-max-height: 440px;">
 <h2>Counting Galaxies</h2>
 <p><span class="math display">\[
 \require{color}
@@ -311,7 +311,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </div>
 </div>
 </section>
-<section id="the-amplitude-excess" class="slide level2 top-slide" style="--top-slide-padding: 2em;">
+<section id="the-amplitude-excess" class="slide level2 top-slide" style="--top-slide-padding: 2.5em;">
 <h2>The Amplitude Excess</h2>
 <div class="r-stack wide-stack">
 <div class="fragment fade-out" data-fragment-index="1">
@@ -348,7 +348,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </div>
 </div>
 </section>
-<section id="the-catwise-sample" class="slide level2 top-slide" style="--top-slide-padding: 1.5em;">
+<section id="the-catwise-sample" class="slide level2 top-slide fit-captioned-figure" style="--top-slide-padding: 2.5em; --captioned-figure-max-height: 560px;">
 <h2>The CatWISE Sample</h2>
 <div class="r-stack wide-stack">
 <div class="fragment fade-out" data-fragment-index="1">
@@ -369,9 +369,9 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </div>
 </div>
 </section>
-<section id="correcting-for-the-bias" class="slide level2 paper-top" style="--paper-top-body-offset: 150px;">
+<section id="correcting-for-the-bias" class="slide level2 paper-top fit-captioned-figure" style="--paper-top-clearance: 2.1em; --paper-top-gap: 0.6em; --captioned-figure-max-height: 360px;">
 <h2>Correcting for the Bias</h2>
-<p><img data-src="figures/secrest21-header.png" class="absolute" style="top: 0px; left: 0px; width: 1050px; "></p>
+<p><img data-src="figures/secrest21-header.png" style="width:100.0%"></p>
 <div class="paper-top-body">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -386,7 +386,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <h1>Is it good enough to make an ad hoc correction after the fact?</h1>
 
 </section>
-<section id="wises-scanning-law" class="slide level2 top-slide" style="--top-slide-padding: 2em;">
+<section id="wises-scanning-law" class="slide level2 top-slide" style="--top-slide-padding: 2.5em;">
 <h2>WISE’s Scanning Law</h2>
 <div class="columns double-columns">
 <div class="column center-column" style="width:50%;">
@@ -423,13 +423,13 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <p>Obeys a <a href=".alert">scanning law</a> over the survey’s lifetime</p>
 </div>
 </section>
-<section id="photometric-errors" class="slide level2 top-slide" style="--top-slide-padding: 1.5em;">
+<section id="photometric-errors" class="slide level2 top-slide fit-captioned-figure" style="--top-slide-padding: 3em;">
 <h2>Photometric Errors</h2>
 <div class="r-stack wide-stack">
 <div class="fragment fade-out" data-fragment-index="1">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figures/catwise_coverage_map.svg" style="width:90.0%"></p>
+<p><img data-src="figures/catwise_coverage_map.svg" style="width:100.0%"></p>
 <figcaption>WISE coverage in W1 band for the Secrest+21 sample</figcaption>
 </figure>
 </div>
@@ -437,7 +437,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <div class="fragment fade-in-then-out" data-fragment-index="1">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figures/catwise_error_map.svg" style="width:90.0%"></p>
+<p><img data-src="figures/catwise_error_map.svg" style="width:100.0%"></p>
 <figcaption>Source photometric error (%) in W1 band for the Secrest+21 sample</figcaption>
 </figure>
 </div>
@@ -445,14 +445,14 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <div class="fragment fade-in-then-out" data-fragment-index="2">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figures/catwise_density_map.svg" style="width:90.0%"></p>
+<p><img data-src="figures/catwise_density_map.svg" style="width:100.0%"></p>
 <figcaption>CatWISE quasar map, no linear weighting</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="eddington-bias" class="slide level2 top-slide eddington-interactive" style="--top-slide-padding: 0.5em;">
+<section id="eddington-bias" class="slide level2 top-slide eddington-interactive" style="--top-slide-padding: 0.5em; --eddington-print-top-offset: 2em;">
 <h2>Eddington Bias</h2>
 <p><span class="math display">\[
   \require{color}
@@ -696,7 +696,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <h1>This is just something we can simulate!</h1>
 
 </section>
-<section id="simulations" class="slide level2 top-slide eddington-interactive" style="--top-slide-padding: 0.75em;">
+<section id="simulations" class="slide level2 top-slide eddington-interactive" style="--top-slide-padding: 1em;">
 <h2>Simulations</h2>
 <div class="columns double-columns">
 <div class="column" style="width:40%;">
@@ -768,15 +768,16 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </div>
 </div></div>
 </section>
-<section id="one-thing-left-to-do" class="slide level2 moses-viewport fragment-background-zoom" data-background-image="figures/moses_commandment_v2.jpg" data-background-size="cover" data-background-position="center top" data-background-zoom-fragment="0" data-background-zoom-scale="1.75" data-background-zoom-duration="1200" data-background-zoom-origin="0% 0%">
+<section id="one-thing-left-to-do" class="slide level2 moses-viewport fragment-background-zoom" data-background-image="figures/moses_commandment_v2.jpg" data-background-size="cover" data-background-position="center top" data-background-zoom-fragment="0" data-background-zoom-scale="1.75" data-background-zoom-duration="1200" data-background-zoom-origin="0% 0%" data-background-print-translate-y="100px" style="--moses-content-gap: 3em; --moses-content-top: 4em">
 <h2>One Thing Left To Do…</h2>
 <div class="fragment fragment-background-zoom-step" data-fragment-index="0">
 
 </div>
-<div class="fragment absolute primary-box bayes-rule-box fade-up" data-fragment-index="1" style="top: 0%; left: 0%; ">
+<div class="moses-content">
+<div class="fragment primary-box bayes-rule-box fade-up" data-fragment-index="1">
 <p><span class="math inline">\(\text{Posterior} = \dfrac{\text{Prior} \times \alertmath{\text{Likelihood}} }{\text{Evidence}}\)</span></p>
 </div>
-<div class="fragment absolute primary-box" data-fragment-index="2" style="top: 45%; left: 0%;">
+<div class="fragment primary-box moses-explain-box" data-fragment-index="2">
   <ul>
     <li>Don't know \(\alertmath{\mathcal{L}}\)? No problem!</li>
     <li class="fragment" data-fragment-index="3">
@@ -786,9 +787,10 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
       Use a neural network to learn \(\alertmath{\mathcal{L}}\).
     </li>
     <li class="fragment" data-fragment-index="5">
-      This is <strong>S</strong>imulation-<strong>B</strong>ased <strong>I</strong>nference.
+      This is <strong>SBI</strong>.
     </li>
   </ul>
+</div>
 </div>
 </section>
 <section id="catsim-results" class="slide level2">
@@ -819,7 +821,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <li class="fragment">Leverage power of simulations and SBI <span class="checkmark" style=""><span class="math inline">\(\checkmark\)</span></span></li>
 </ul>
 
-<div class="reveal-header">
+<div class="reveal-header" data-header-scale="auto">
 <div class="header-title">
 <p> </p>
 </div>
@@ -858,7 +860,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'pdfSeparateFragments': false,
+'pdfSeparateFragments': true,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
@@ -884,7 +886,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1015,6 +1017,8 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
+
+        maxScale: 4,
 
         math: {
           mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
