@@ -99,7 +99,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-0908ac2989e0015bffbe4373dc35b6a9.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-38b5b33fa4283b0d0559260fd37077a6.css">
   <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -749,6 +749,9 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </div>
 </div><div class="column center-column" style="width:60%;">
 <div class="r-stack wide-stack">
+<div class="fragment fade-in-then-out" data-fragment-index="2">
+<p><img data-src="figures/cov_mag_error_heatmap.svg" width="325"></p>
+</div>
 <div class="fragment fade-in-then-out" data-fragment-index="4">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -815,11 +818,33 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </section>
 <section id="section" class="slide level2 standout">
 <h2></h2>
+<div class="standout-banner">
+<p><img data-src="figures/oayda+26_banner_transp.png" width="800"></p>
+</div>
 <ul>
 <li class="fragment">Describe and account for ecliptic bias <span class="checkmark" style=""><span class="math inline">\(\checkmark\)</span></span></li>
 <li class="fragment">Measure cosmic dipole <span class="checkmark" style=""><span class="math inline">\(\checkmark\)</span></span></li>
 <li class="fragment">Leverage power of simulations and SBI <span class="checkmark" style=""><span class="math inline">\(\checkmark\)</span></span></li>
 </ul>
+<div class="fragment">
+<div class="final-contact-links">
+<div class="final-contact-link">
+<p><img data-src="figures/web_favicon.svg" class="final-contact-icon"> <a href="https://oayda.net" class="final-contact-label">oayda.net</a></p>
+</div>
+<div class="final-contact-link">
+<p><img data-src="figures/github_favicon.svg" class="final-contact-icon"> <a href="https://github.com/o-oayda" class="final-contact-label">o-oayda</a></p>
+</div>
+</div>
+</div>
+</section>
+<section id="validation" class="slide level2">
+<h2>Validation</h2>
+<div class="columns double-columns">
+<div class="column" style="width:50%;">
+<p><img data-src="figures/corner_evidence_acc_example.svg" style="width:100.0%"></p>
+</div><div class="column center-column" style="width:50%;">
+<p><img data-src="figures/evidence_evolution.svg" style="width:100.0%"></p>
+</div></div>
 
 <div class="reveal-header" data-header-scale="auto">
 <div class="header-title">
@@ -1197,6 +1222,37 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
         document.addEventListener("DOMContentLoaded", installHeaderClearance);
       } else {
         installHeaderClearance();
+      }
+    })();
+    </script>
+    <script>
+    (() => {
+      const targetSelector = ".bayes-rule-box";
+
+      function rerenderMathInTarget(target) {
+        const box = target?.matches?.(targetSelector)
+          ? target
+          : target?.querySelector?.(targetSelector);
+
+        if (!box || !window.MathJax?.Hub?.Queue) return;
+
+        window.MathJax.Hub.Queue(["Rerender", window.MathJax.Hub, box]);
+        window.MathJax.Hub.Queue(() => window.Reveal?.layout?.());
+      }
+
+      function installMathFragmentLayout() {
+        window.Reveal?.on?.("slidechanged", (event) => {
+          rerenderMathInTarget(event.currentSlide);
+        });
+        window.Reveal?.on?.("fragmentshown", (event) => {
+          rerenderMathInTarget(event.fragment);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", installMathFragmentLayout);
+      } else {
+        installMathFragmentLayout();
       }
     })();
     </script>
