@@ -6,7 +6,7 @@
 <script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting-f8b45d2e6062d3f0773618a8522056e4.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Oliver Oayda">
@@ -99,7 +99,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-38b5b33fa4283b0d0559260fd37077a6.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-a246b8de8a8475816e3f9f452274ffb4.css">
   <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -193,6 +193,11 @@
   </style>
   <script>
   window.MathJax = {
+    jax: ["input/TeX", "output/SVG"],
+    extensions: ["tex2jax.js"],
+    TeX: {
+      extensions: ["AMSmath.js", "AMSsymbols.js"]
+    },
     "HTML-CSS": {
       mtextFontInherit: true
     },
@@ -200,6 +205,20 @@
       mtextFontInherit: true
     }
   };
+
+  (() => {
+    const svgConfig = "TeX-AMS_SVG-full";
+    const originalAppendChild = document.head.appendChild.bind(document.head);
+
+    document.head.appendChild = (node) => {
+      if (node?.tagName === "SCRIPT" && /MathJax\.js/.test(node.src)) {
+        const url = new URL(node.src);
+        url.searchParams.set("config", svgConfig);
+        node.src = url.toString();
+      }
+      return originalAppendChild(node);
+    };
+  })();
   </script>
   <script type="module" src="slides_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="slides_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
@@ -733,7 +752,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
       },
       {
         "id": "errors",
-        "label": "Add photometric <span class='accent'>errors</span><br>\\(m'_\\nu \\to m'_\\nu + {\\color{#eb811b}{\\Delta m'_\\nu}}\\)"
+        "label": "Add photometric <span class='accent'>errors</span>"
       },
       {
         "id": "cuts",
@@ -751,6 +770,9 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <div class="r-stack wide-stack">
 <div class="fragment fade-in-then-out" data-fragment-index="2">
 <p><img data-src="figures/cov_mag_error_heatmap.svg" width="325"></p>
+<div class="simulation-equation">
+<p><span class="math display">\[m'_{\nu } \to m'_{\nu} + \alertmath{\Delta m'_{\nu}} \]</span></p>
+</div>
 </div>
 <div class="fragment fade-in-then-out" data-fragment-index="4">
 <div class="quarto-figure quarto-figure-center">
