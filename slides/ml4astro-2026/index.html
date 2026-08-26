@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slides_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slides_files/libs/quarto-html/popper.min.js"></script>
+<script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="author" content="Oliver Oayda">
+  <meta name="dcterms.date" content="2026-09-03">
+  <title>Wising up to CatWISE</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-06a220121f5c35b7f602702157a15f9e.css">
+  <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script>
+  window.MathJax = {
+    jax: ["input/TeX", "output/SVG"],
+    extensions: ["tex2jax.js"],
+    TeX: {
+      extensions: ["AMSmath.js", "AMSsymbols.js"]
+    },
+    "HTML-CSS": {
+      mtextFontInherit: true
+    },
+    SVG: {
+      mtextFontInherit: true
+    }
+  };
+
+  (() => {
+    const svgConfig = "TeX-AMS_SVG-full";
+    const originalAppendChild = document.head.appendChild.bind(document.head);
+
+    document.head.appendChild = (node) => {
+      if (node?.tagName === "SCRIPT" && /MathJax\.js/.test(node.src)) {
+        const url = new URL(node.src);
+        url.searchParams.set("config", svgConfig);
+        node.src = url.toString();
+      }
+      return originalAppendChild(node);
+    };
+  })();
+  </script>
+  <script type="module" src="slides_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="slides_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Wising up to CatWISE</h1>
+  <p class="subtitle">Using simulation-based inference to measure the cosmic dipole</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Oliver Oayda 
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:oliver.oayda@sydney.edu.au">oliver.oayda@sydney.edu.au</a>
+</div>
+        <p class="quarto-title-affiliation">
+            PhD Candidate
+          </p>
+        <p class="quarto-title-affiliation">
+            Sydney Institute for Astronomy
+          </p>
+        <p class="quarto-title-affiliation">
+            The University of Sydney
+          </p>
+    </div>
+</div>
+
+  <p class="date">September 3, 2026</p>
+</section>
+<section>
+<section id="simulation-based-inference-resolves-systematics." class="title-slide slide level1 center">
+<h1>Simulation-based inference resolves systematics.</h1>
+
+</section>
+<section id="the-kinematic-dipole" class="slide level2 top-slide" style="--top-slide-padding: 2.5em; --sphere-figure-max-height: 550px">
+<h2>The Kinematic Dipole</h2>
+<div class="r-stack">
+<div class="fragment fade-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/Planck_CMB.jpg" style="width:100.0%"></p>
+<figcaption>CMB temperature map (Planck satellite)</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/cmb_sphere1.png" class="sphere-figure"></p>
+<figcaption>CMB as a sphere</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="2">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/earth_in_cmb.png" class="sphere-figure"></p>
+<figcaption>CMB as a sphere (Earth inside)</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="3">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/earth_in_cmb_arrow.png" class="sphere-figure"></p>
+<figcaption>We’re moving through the Universe!</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="4">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/earth_in_dipole.png" class="sphere-figure"></p>
+<figcaption>Kinematic dipole as a sphere (Earth inside)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="counting-galaxies" class="slide level2 top-slide fit-captioned-figure" style="--top-slide-padding: 2em; --captioned-figure-max-height: 440px;">
+<h2>Counting Galaxies</h2>
+<p><span class="math display">\[
+\require{color}
+\definecolor{secondarycolor}{RGB}{235,129,27}
+\newcommand{\alertmath}[1]{{\color{secondarycolor}{#1}}}
+N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
+\]</span></p>
+<div class="r-stack wide-stack">
+<div class="fragment fade-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/sample_dmap.svg" style="width:100.0%"></p>
+<figcaption>Simulated isotropic galaxy map (+ dipole)</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/sample_dmap_smooth.svg" style="width:100.0%"></p>
+<figcaption>Simulated isotropic galaxy map (+ dipole)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="special-relativity" class="slide level2">
+<h2>Special Relativity</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href=".alert">Aberration</a></p>
+<div class="r-stack">
+<div class="fragment" data-fragment-index="1">
+<p><img data-src="figures/gif/aberration-00.png"></p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p><img data-src="figures/gif/aberration-01.png"></p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p><img data-src="figures/gif/aberration-02.png"></p>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p><img data-src="figures/gif/aberration-03.png"></p>
+</div>
+<div class="fragment" data-fragment-index="5">
+<p><img data-src="figures/gif/aberration-04.png"></p>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p><a href=".alert">Doppler boosting</a></p>
+<div class="doppler-demo fragment" data-fragment-index="6">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb1--1"><a href=""></a><span class="co">// Fixed simulation inputs. Keeping these together makes the assumed physics</span></span>
+<span id="cb1-0"><a href=""></a><span class="co">// and the plotted population straightforward to audit.</span></span>
+<span id="cb1-1"><a href=""></a>doppler_config <span class="op">=</span> ({</span>
+<span id="cb1-2"><a href=""></a>  <span class="dt">nSources</span><span class="op">:</span> <span class="dv">60000</span><span class="op">,</span></span>
+<span id="cb1-3"><a href=""></a>  <span class="dt">randomSeed</span><span class="op">:</span> <span class="dv">73</span><span class="op">,</span></span>
+<span id="cb1-4"><a href=""></a>  <span class="dt">differentialCountIndex</span><span class="op">:</span> <span class="fl">2.5</span><span class="op">,</span> <span class="co">// dN/dS_nu proportional to S_nu^(-2.5)</span></span>
+<span id="cb1-5"><a href=""></a>  <span class="dt">minFlux</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb1-6"><a href=""></a>  <span class="dt">maxFlux</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
+<span id="cb1-7"><a href=""></a>  <span class="dt">plotMaxFlux</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span></span>
+<span id="cb1-8"><a href=""></a>  <span class="dt">nBins</span><span class="op">:</span> <span class="dv">52</span><span class="op">,</span></span>
+<span id="cb1-9"><a href=""></a>  <span class="dt">spectralIndex</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb1-10"><a href=""></a>  <span class="dt">cosTheta</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span>                 <span class="co">// small patch in the forward hemisphere</span></span>
+<span id="cb1-11"><a href=""></a>  <span class="dt">fluxCut</span><span class="op">:</span> <span class="dv">5</span></span>
+<span id="cb1-12"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb2--1"><a href=""></a><span class="co">// Inverse-CDF samples from the truncated differential power law</span></span>
+<span id="cb2-0"><a href=""></a><span class="co">// p(S_nu) proportional to S_nu^(-p), for S_min &lt;= S_nu &lt;= S_max.</span></span>
+<span id="cb2-1"><a href=""></a>doppler_rest_fluxes <span class="op">=</span> {</span>
+<span id="cb2-2"><a href=""></a>  <span class="kw">const</span> p <span class="op">=</span> doppler_config<span class="op">.</span><span class="at">differentialCountIndex</span><span class="op">;</span></span>
+<span id="cb2-3"><a href=""></a>  <span class="kw">const</span> exponent <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> p<span class="op">;</span></span>
+<span id="cb2-4"><a href=""></a>  <span class="kw">const</span> low <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(doppler_config<span class="op">.</span><span class="at">minFlux</span><span class="op">,</span> exponent)<span class="op">;</span></span>
+<span id="cb2-5"><a href=""></a>  <span class="kw">const</span> high <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(doppler_config<span class="op">.</span><span class="at">maxFlux</span><span class="op">,</span> exponent)<span class="op">;</span></span>
+<span id="cb2-6"><a href=""></a>  <span class="kw">const</span> rng <span class="op">=</span> d3<span class="op">.</span><span class="fu">randomLcg</span>(doppler_config<span class="op">.</span><span class="at">randomSeed</span>)<span class="op">;</span></span>
+<span id="cb2-7"><a href=""></a></span>
+<span id="cb2-8"><a href=""></a>  <span class="cf">return</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ <span class="dt">length</span><span class="op">:</span> doppler_config<span class="op">.</span><span class="at">nSources</span> }<span class="op">,</span> () <span class="kw">=&gt;</span></span>
+<span id="cb2-9"><a href=""></a>    <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(low <span class="op">+</span> <span class="fu">rng</span>() <span class="op">*</span> (high <span class="op">-</span> low)<span class="op">,</span> <span class="dv">1</span> <span class="op">/</span> exponent)</span>
+<span id="cb2-10"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb2-11"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb3--1"><a href=""></a><span class="co">// Observer-frame transformation requested for the forward patch:</span></span>
+<span id="cb3-0"><a href=""></a><span class="co">//   gamma = 1 / sqrt(1 - beta^2)</span></span>
+<span id="cb3-1"><a href=""></a><span class="co">//   delta = gamma (1 + beta cos(theta))</span></span>
+<span id="cb3-2"><a href=""></a><span class="co">//   S'_nu = S_nu delta^(1 + alpha)</span></span>
+<span id="cb3-3"><a href=""></a>doppler_transform <span class="op">=</span> {</span>
+<span id="cb3-4"><a href=""></a>  <span class="kw">const</span> beta <span class="op">=</span> doppler_beta<span class="op">;</span></span>
+<span id="cb3-5"><a href=""></a>  <span class="kw">const</span> gamma <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="op">-</span> beta <span class="op">*</span> beta)<span class="op">;</span></span>
+<span id="cb3-6"><a href=""></a>  <span class="kw">const</span> delta <span class="op">=</span> gamma <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> beta <span class="op">*</span> doppler_config<span class="op">.</span><span class="at">cosTheta</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href=""></a>  <span class="kw">const</span> fluxMultiplier <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(</span>
+<span id="cb3-8"><a href=""></a>    delta<span class="op">,</span></span>
+<span id="cb3-9"><a href=""></a>    <span class="dv">1</span> <span class="op">+</span> doppler_config<span class="op">.</span><span class="at">spectralIndex</span></span>
+<span id="cb3-10"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb3-11"><a href=""></a></span>
+<span id="cb3-12"><a href=""></a>  <span class="cf">return</span> { beta<span class="op">,</span> gamma<span class="op">,</span> delta<span class="op">,</span> fluxMultiplier }<span class="op">;</span></span>
+<span id="cb3-13"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb4--1"><a href=""></a>doppler_bins <span class="op">=</span> {</span>
+<span id="cb4-0"><a href=""></a>  <span class="kw">const</span> logMin <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log10</span>(doppler_config<span class="op">.</span><span class="at">minFlux</span>)<span class="op">;</span></span>
+<span id="cb4-1"><a href=""></a>  <span class="kw">const</span> logMax <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log10</span>(doppler_config<span class="op">.</span><span class="at">plotMaxFlux</span>)<span class="op">;</span></span>
+<span id="cb4-2"><a href=""></a>  <span class="kw">const</span> step <span class="op">=</span> (logMax <span class="op">-</span> logMin) <span class="op">/</span> doppler_config<span class="op">.</span><span class="at">nBins</span><span class="op">;</span></span>
+<span id="cb4-3"><a href=""></a></span>
+<span id="cb4-4"><a href=""></a>  <span class="cf">return</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ <span class="dt">length</span><span class="op">:</span> doppler_config<span class="op">.</span><span class="at">nBins</span> <span class="op">+</span> <span class="dv">1</span> }<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span></span>
+<span id="cb4-5"><a href=""></a>    <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">10</span><span class="op">,</span> logMin <span class="op">+</span> i <span class="op">*</span> step)</span>
+<span id="cb4-6"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb4-7"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb5--1"><a href=""></a>doppler_histograms <span class="op">=</span> {</span>
+<span id="cb5-0"><a href=""></a>  <span class="kw">function</span> <span class="fu">histogram</span>(values<span class="op">,</span> series) {</span>
+<span id="cb5-1"><a href=""></a>    <span class="kw">const</span> counts <span class="op">=</span> <span class="bu">Array</span>(doppler_config<span class="op">.</span><span class="at">nBins</span>)<span class="op">.</span><span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href=""></a>    <span class="cf">for</span> (<span class="kw">const</span> value <span class="kw">of</span> values) {</span>
+<span id="cb5-3"><a href=""></a>      <span class="cf">if</span> (</span>
+<span id="cb5-4"><a href=""></a>        value <span class="op">&lt;</span> doppler_config<span class="op">.</span><span class="at">minFlux</span> <span class="op">||</span></span>
+<span id="cb5-5"><a href=""></a>        value <span class="op">&gt;=</span> doppler_config<span class="op">.</span><span class="at">plotMaxFlux</span></span>
+<span id="cb5-6"><a href=""></a>      ) <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb5-7"><a href=""></a></span>
+<span id="cb5-8"><a href=""></a>      <span class="kw">const</span> index <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(</span>
+<span id="cb5-9"><a href=""></a>        doppler_config<span class="op">.</span><span class="at">nBins</span> <span class="op">-</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb5-10"><a href=""></a>        d3<span class="op">.</span><span class="fu">bisectRight</span>(doppler_bins<span class="op">,</span> value) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb5-11"><a href=""></a>      )<span class="op">;</span></span>
+<span id="cb5-12"><a href=""></a>      counts[index] <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-13"><a href=""></a>    }</span>
+<span id="cb5-14"><a href=""></a></span>
+<span id="cb5-15"><a href=""></a>    <span class="kw">const</span> bars <span class="op">=</span> counts</span>
+<span id="cb5-16"><a href=""></a>      <span class="op">.</span><span class="fu">map</span>((count<span class="op">,</span> i) <span class="kw">=&gt;</span> ({</span>
+<span id="cb5-17"><a href=""></a>        <span class="dt">x0</span><span class="op">:</span> doppler_bins[i]<span class="op">,</span></span>
+<span id="cb5-18"><a href=""></a>        <span class="dt">x1</span><span class="op">:</span> doppler_bins[i <span class="op">+</span> <span class="dv">1</span>]<span class="op">,</span></span>
+<span id="cb5-19"><a href=""></a>        count<span class="op">,</span></span>
+<span id="cb5-20"><a href=""></a>        series</span>
+<span id="cb5-21"><a href=""></a>      }))</span>
+<span id="cb5-22"><a href=""></a>      <span class="op">.</span><span class="fu">filter</span>((d) <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">count</span> <span class="op">&gt;</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-23"><a href=""></a></span>
+<span id="cb5-24"><a href=""></a>    <span class="co">// Close the stepped outline at both limits. On the logarithmic y-axis,</span></span>
+<span id="cb5-25"><a href=""></a>    <span class="co">// count = 1 is the visible baseline used for an empty boundary bin.</span></span>
+<span id="cb5-26"><a href=""></a>    <span class="kw">const</span> first <span class="op">=</span> counts<span class="op">.</span><span class="fu">findIndex</span>((count) <span class="kw">=&gt;</span> count <span class="op">&gt;</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-27"><a href=""></a>    <span class="kw">const</span> last <span class="op">=</span> counts<span class="op">.</span><span class="fu">findLastIndex</span>((count) <span class="kw">=&gt;</span> count <span class="op">&gt;</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-28"><a href=""></a>    <span class="kw">const</span> outline <span class="op">=</span> first <span class="op">&lt;</span> <span class="dv">0</span></span>
+<span id="cb5-29"><a href=""></a>      <span class="op">?</span> []</span>
+<span id="cb5-30"><a href=""></a>      <span class="op">:</span> [</span>
+<span id="cb5-31"><a href=""></a>          { <span class="dt">x</span><span class="op">:</span> doppler_bins[first]<span class="op">,</span> <span class="dt">count</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> series }<span class="op">,</span></span>
+<span id="cb5-32"><a href=""></a>          <span class="op">...</span>counts<span class="op">.</span><span class="fu">slice</span>(first<span class="op">,</span> last <span class="op">+</span> <span class="dv">1</span>)<span class="op">.</span><span class="fu">map</span>((count<span class="op">,</span> offset) <span class="kw">=&gt;</span> ({</span>
+<span id="cb5-33"><a href=""></a>            <span class="dt">x</span><span class="op">:</span> doppler_bins[first <span class="op">+</span> offset]<span class="op">,</span></span>
+<span id="cb5-34"><a href=""></a>            <span class="dt">count</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">1</span><span class="op">,</span> count)<span class="op">,</span></span>
+<span id="cb5-35"><a href=""></a>            series</span>
+<span id="cb5-36"><a href=""></a>          }))<span class="op">,</span></span>
+<span id="cb5-37"><a href=""></a>          { <span class="dt">x</span><span class="op">:</span> doppler_bins[last <span class="op">+</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">count</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> series }</span>
+<span id="cb5-38"><a href=""></a>        ]<span class="op">;</span></span>
+<span id="cb5-39"><a href=""></a></span>
+<span id="cb5-40"><a href=""></a>    <span class="cf">return</span> { bars<span class="op">,</span> outline }<span class="op">;</span></span>
+<span id="cb5-41"><a href=""></a>  }</span>
+<span id="cb5-42"><a href=""></a></span>
+<span id="cb5-43"><a href=""></a>  <span class="kw">const</span> observedFluxes <span class="op">=</span> doppler_rest_fluxes<span class="op">.</span><span class="fu">map</span>(</span>
+<span id="cb5-44"><a href=""></a>    (flux) <span class="kw">=&gt;</span> flux <span class="op">*</span> doppler_transform<span class="op">.</span><span class="at">fluxMultiplier</span></span>
+<span id="cb5-45"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb5-46"><a href=""></a></span>
+<span id="cb5-47"><a href=""></a>  <span class="kw">const</span> rest <span class="op">=</span> <span class="fu">histogram</span>(doppler_rest_fluxes<span class="op">,</span> <span class="st">"Rest frame"</span>)<span class="op">;</span></span>
+<span id="cb5-48"><a href=""></a>  <span class="kw">const</span> observed <span class="op">=</span> <span class="fu">histogram</span>(observedFluxes<span class="op">,</span> <span class="st">"Observer frame"</span>)<span class="op">;</span></span>
+<span id="cb5-49"><a href=""></a></span>
+<span id="cb5-50"><a href=""></a>  <span class="cf">return</span> {</span>
+<span id="cb5-51"><a href=""></a>    <span class="dt">bars</span><span class="op">:</span> [<span class="op">...</span>rest<span class="op">.</span><span class="at">bars</span><span class="op">,</span> <span class="op">...</span>observed<span class="op">.</span><span class="at">bars</span>]<span class="op">,</span></span>
+<span id="cb5-52"><a href=""></a>    <span class="dt">outlines</span><span class="op">:</span> [<span class="op">...</span>rest<span class="op">.</span><span class="at">outline</span><span class="op">,</span> <span class="op">...</span>observed<span class="op">.</span><span class="at">outline</span>]</span>
+<span id="cb5-53"><a href=""></a>  }<span class="op">;</span></span>
+<span id="cb5-54"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb6--1"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb6-0"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
+<span id="cb6-1"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">390</span><span class="op">,</span></span>
+<span id="cb6-2"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">62</span><span class="op">,</span></span>
+<span id="cb6-3"><a href=""></a>  <span class="dt">marginRight</span><span class="op">:</span> <span class="dv">18</span><span class="op">,</span></span>
+<span id="cb6-4"><a href=""></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">34</span><span class="op">,</span></span>
+<span id="cb6-5"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">54</span><span class="op">,</span></span>
+<span id="cb6-6"><a href=""></a>  <span class="dt">style</span><span class="op">:</span> {</span>
+<span id="cb6-7"><a href=""></a>    <span class="dt">fontFamily</span><span class="op">:</span> <span class="st">"Fira Sans, Helvetica, sans-serif"</span><span class="op">,</span></span>
+<span id="cb6-8"><a href=""></a>    <span class="dt">fontSize</span><span class="op">:</span> <span class="st">"13px"</span></span>
+<span id="cb6-9"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb6-10"><a href=""></a>  <span class="dt">color</span><span class="op">:</span> {</span>
+<span id="cb6-11"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="st">"Rest frame"</span><span class="op">,</span> <span class="st">"Observer frame"</span>]<span class="op">,</span></span>
+<span id="cb6-12"><a href=""></a>    <span class="dt">range</span><span class="op">:</span> [<span class="st">"#50a96d"</span><span class="op">,</span> <span class="st">"#ef7c3b"</span>]<span class="op">,</span></span>
+<span id="cb6-13"><a href=""></a>    <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb6-14"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb6-15"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb6-16"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span></span>
+<span id="cb6-17"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [doppler_config<span class="op">.</span><span class="at">minFlux</span><span class="op">,</span> doppler_config<span class="op">.</span><span class="at">plotMaxFlux</span>]<span class="op">,</span></span>
+<span id="cb6-18"><a href=""></a>    <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span></span>
+<span id="cb6-19"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Flux density"</span></span>
+<span id="cb6-20"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb6-21"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
+<span id="cb6-22"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span></span>
+<span id="cb6-23"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">12000</span>]<span class="op">,</span></span>
+<span id="cb6-24"><a href=""></a>    <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1000</span><span class="op">,</span> <span class="dv">10000</span>]<span class="op">,</span></span>
+<span id="cb6-25"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Count in each flux bin"</span></span>
+<span id="cb6-26"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb6-27"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb6-28"><a href=""></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(doppler_histograms<span class="op">.</span><span class="at">bars</span><span class="op">,</span> {</span>
+<span id="cb6-29"><a href=""></a>      <span class="dt">x1</span><span class="op">:</span> <span class="st">"x0"</span><span class="op">,</span></span>
+<span id="cb6-30"><a href=""></a>      <span class="dt">x2</span><span class="op">:</span> <span class="st">"x1"</span><span class="op">,</span></span>
+<span id="cb6-31"><a href=""></a>      <span class="dt">y1</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb6-32"><a href=""></a>      <span class="dt">y2</span><span class="op">:</span> <span class="st">"count"</span><span class="op">,</span></span>
+<span id="cb6-33"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"series"</span><span class="op">,</span></span>
+<span id="cb6-34"><a href=""></a>      <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.22</span><span class="op">,</span></span>
+<span id="cb6-35"><a href=""></a>      <span class="dt">inset</span><span class="op">:</span> <span class="dv">0</span></span>
+<span id="cb6-36"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb6-37"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(doppler_histograms<span class="op">.</span><span class="at">outlines</span><span class="op">,</span> {</span>
+<span id="cb6-38"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
+<span id="cb6-39"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span><span class="op">,</span></span>
+<span id="cb6-40"><a href=""></a>      <span class="dt">z</span><span class="op">:</span> <span class="st">"series"</span><span class="op">,</span></span>
+<span id="cb6-41"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"series"</span><span class="op">,</span></span>
+<span id="cb6-42"><a href=""></a>      <span class="dt">curve</span><span class="op">:</span> <span class="st">"step-after"</span><span class="op">,</span></span>
+<span id="cb6-43"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.8</span></span>
+<span id="cb6-44"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb6-45"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([doppler_config<span class="op">.</span><span class="at">fluxCut</span>]<span class="op">,</span> {</span>
+<span id="cb6-46"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#222"</span><span class="op">,</span></span>
+<span id="cb6-47"><a href=""></a>      <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,4"</span><span class="op">,</span></span>
+<span id="cb6-48"><a href=""></a>      <span class="dt">strokeOpacity</span><span class="op">:</span> <span class="fl">0.65</span></span>
+<span id="cb6-49"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb6-50"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb6-51"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#000"</span><span class="op">,</span></span>
+<span id="cb6-52"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.8</span></span>
+<span id="cb6-53"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb6-54"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([doppler_config<span class="op">.</span><span class="at">minFlux</span>]<span class="op">,</span> {</span>
+<span id="cb6-55"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#000"</span><span class="op">,</span></span>
+<span id="cb6-56"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.8</span></span>
+<span id="cb6-57"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb6-58"><a href=""></a>    Plot<span class="op">.</span><span class="fu">text</span>(</span>
+<span id="cb6-59"><a href=""></a>      [{ <span class="dt">x</span><span class="op">:</span> doppler_config<span class="op">.</span><span class="at">fluxCut</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Flux cut"</span> }]<span class="op">,</span></span>
+<span id="cb6-60"><a href=""></a>      {</span>
+<span id="cb6-61"><a href=""></a>        <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
+<span id="cb6-62"><a href=""></a>        <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span></span>
+<span id="cb6-63"><a href=""></a>        <span class="dt">frameAnchor</span><span class="op">:</span> <span class="st">"top"</span><span class="op">,</span></span>
+<span id="cb6-64"><a href=""></a>        <span class="dt">dy</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb6-65"><a href=""></a>        <span class="dt">dx</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb6-66"><a href=""></a>        <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span></span>
+<span id="cb6-67"><a href=""></a>        <span class="dt">fill</span><span class="op">:</span> <span class="st">"#222"</span></span>
+<span id="cb6-68"><a href=""></a>      }</span>
+<span id="cb6-69"><a href=""></a>    )</span>
+<span id="cb6-70"><a href=""></a>  ]</span>
+<span id="cb6-71"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-6" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb7--1"><a href=""></a>viewof doppler_beta <span class="op">=</span> {</span>
+<span id="cb7-0"><a href=""></a>  <span class="kw">const</span> <span class="bu">root</span> <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;label class="doppler-beta-control"&gt;</span></span>
+<span id="cb7-1"><a href=""></a><span class="vs">    &lt;span&gt;Speed (c)&lt;/span&gt;</span></span>
+<span id="cb7-2"><a href=""></a><span class="vs">    &lt;input class="doppler-beta-slider" type="range" min="0" max="0.3" step="0.005" value="0"&gt;</span></span>
+<span id="cb7-3"><a href=""></a><span class="vs">    &lt;output&gt;&lt;/output&gt;</span></span>
+<span id="cb7-4"><a href=""></a><span class="vs">  &lt;/label&gt;`</span><span class="op">;</span></span>
+<span id="cb7-5"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">"input"</span>)<span class="op">;</span></span>
+<span id="cb7-6"><a href=""></a>  <span class="kw">const</span> output <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">"output"</span>)<span class="op">;</span></span>
+<span id="cb7-7"><a href=""></a></span>
+<span id="cb7-8"><a href=""></a>  <span class="bu">root</span><span class="op">.</span><span class="at">value</span> <span class="op">=</span> input<span class="op">.</span><span class="at">valueAsNumber</span><span class="op">;</span></span>
+<span id="cb7-9"><a href=""></a>  output<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="at">value</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb7-10"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">"input"</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb7-11"><a href=""></a>    <span class="bu">root</span><span class="op">.</span><span class="at">value</span> <span class="op">=</span> input<span class="op">.</span><span class="at">valueAsNumber</span><span class="op">;</span></span>
+<span id="cb7-12"><a href=""></a>    output<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="at">value</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb7-13"><a href=""></a>    <span class="bu">root</span><span class="op">.</span><span class="fu">dispatchEvent</span>(<span class="kw">new</span> <span class="bu">Event</span>(<span class="st">"input"</span><span class="op">,</span> { <span class="dt">bubbles</span><span class="op">:</span> <span class="kw">true</span> }))<span class="op">;</span></span>
+<span id="cb7-14"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb7-15"><a href=""></a></span>
+<span id="cb7-16"><a href=""></a>  <span class="cf">return</span> <span class="bu">root</span><span class="op">;</span></span>
+<span id="cb7-17"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment-slider-steps" data-slider-selector=".doppler-beta-slider" data-slider-output-selector=".doppler-demo [data-nodetype='expression']" data-slider-display-selector="output" data-slider-value-decimals="3" data-slider-duration="250">
+<p><span class="fragment" data-slider-value="0.075" style=""></span> <span class="fragment" data-slider-value="0.15" style=""></span> <span class="fragment" data-slider-value="0.225" style=""></span> <span class="fragment" data-slider-value="0.30" style=""></span></p>
+</div>
+<script src="scripts/fragment_slider_controls.js"></script>
+</section>
+<section id="the-amplitude-excess" class="slide level2 top-slide" style="--top-slide-padding: 2.5em;">
+<h2>The Amplitude Excess</h2>
+<div class="r-stack wide-stack">
+<div class="fragment fade-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/amp_lit_values_blank.svg" style="width:55.0%"></p>
+<figcaption>The cosmic dipole should be <a href=".alert">consistent</a> with the CMB dipole.</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/amp_lit_values_blake02.svg" style="width:55.0%"></p>
+<figcaption><em>All is well!</em></figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="2">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/amp_lit_values.svg" style="width:55.0%"></p>
+<figcaption><em>Wait…</em></figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="3">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/amp_lit_values_sec_only.svg" style="width:55.0%"></p>
+<figcaption>Focus: Secrest+21/22, CatWISE2020</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-catwise-sample" class="slide level2 top-slide fit-captioned-figure" style="--top-slide-padding: 2.5em; --captioned-figure-max-height: 560px;">
+<h2>The CatWISE Sample</h2>
+<div class="r-stack wide-stack">
+<div class="fragment fade-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catwise_dmap_cor.svg" style="width:90.0%"></p>
+<figcaption>CatWISE quasar map from Secrest+21</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catwise_dmap_true.svg" style="width:90.0%"></p>
+<figcaption>CatWISE quasar map, no linear weighting</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="correcting-for-the-bias" class="slide level2 paper-top fit-captioned-figure" style="--paper-top-clearance: 2.1em; --paper-top-gap: 0.6em; --captioned-figure-max-height: 360px;">
+<h2>Correcting for the Bias</h2>
+<p><img data-src="figures/secrest21-header.png" style="width:100.0%"></p>
+<div class="paper-top-body">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catwise_linear_fit.svg" style="width:60.0%"></p>
+<figcaption>Linear fit to density vs.&nbsp;declination (Secrest+21)</figcaption>
+</figure>
+</div>
+</div>
+</section></section>
+<section>
+<section id="is-it-good-enough-to-make-an-ad-hoc-correction-after-the-fact" class="title-slide slide level1 center">
+<h1>Is it good enough to make an ad hoc correction after the fact?</h1>
+
+</section>
+<section id="wises-scanning-law" class="slide level2 top-slide" style="--top-slide-padding: 2.5em;">
+<h2>WISE’s Scanning Law</h2>
+<div class="columns double-columns">
+<div class="column center-column" style="width:50%;">
+<p><img data-src="figures/wise.png" style="width:80.0%"></p>
+</div><div class="column center-column" style="width:50%;">
+<div class="r-stack">
+<div class="fragment fade-in-then-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/wise_sphere1.png" style="width:90.0%"></p>
+<figcaption>Frames over 1 orbit</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="2">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/wise_sphere2.png" style="width:90.0%"></p>
+<figcaption>Frames over 2 orbits</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in" data-fragment-index="3">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/wise_sphere3.png" style="width:90.0%"></p>
+<figcaption>Frames over 2 orbits 20 days apart</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="4">
+<p>Obeys a <a href=".alert">scanning law</a> over the survey’s lifetime</p>
+</div>
+</section>
+<section id="photometric-errors" class="slide level2 top-slide fit-captioned-figure" style="--top-slide-padding: 3em;">
+<h2>Photometric Errors</h2>
+<div class="r-stack wide-stack">
+<div class="fragment fade-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catwise_coverage_map.svg" style="width:100.0%"></p>
+<figcaption>WISE coverage in W1 band for the Secrest+21 sample</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catwise_error_map.svg" style="width:100.0%"></p>
+<figcaption>Source photometric error (%) in W1 band for the Secrest+21 sample</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="2">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catwise_density_map.svg" style="width:100.0%"></p>
+<figcaption>CatWISE quasar map, no linear weighting</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="eddington-bias" class="slide level2 top-slide eddington-interactive" style="--top-slide-padding: 0.5em; --eddington-print-top-offset: 2em;">
+<h2>Eddington Bias</h2>
+<p><span class="math display">\[
+  \require{color}
+  \definecolor{tomato}{RGB}{255,88,62}
+  \definecolor{cornflowerblue}{RGB}{89,138,234}
+  {\color{tomato}{\textsf{Sampled flux}}}
+    = {\color{cornflowerblue}{\textsf{True flux}}} + \textsf{Noise}
+\]</span></p>
+<div class="eddington-demo">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb8--1"><a href=""></a>eddington_bins <span class="op">=</span> {</span>
+<span id="cb8-0"><a href=""></a>  <span class="kw">const</span> xMin <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb8-1"><a href=""></a>  <span class="kw">const</span> xMax <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb8-2"><a href=""></a>  <span class="kw">const</span> nBins <span class="op">=</span> <span class="dv">80</span><span class="op">;</span></span>
+<span id="cb8-3"><a href=""></a>  <span class="kw">const</span> logMin <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log10</span>(xMin)<span class="op">;</span></span>
+<span id="cb8-4"><a href=""></a>  <span class="kw">const</span> logMax <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log10</span>(xMax)<span class="op">;</span></span>
+<span id="cb8-5"><a href=""></a>  <span class="kw">const</span> step <span class="op">=</span> (logMax <span class="op">-</span> logMin) <span class="op">/</span> nBins<span class="op">;</span></span>
+<span id="cb8-6"><a href=""></a></span>
+<span id="cb8-7"><a href=""></a>  <span class="cf">return</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ <span class="dt">length</span><span class="op">:</span> nBins <span class="op">+</span> <span class="dv">1</span> }<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span></span>
+<span id="cb8-8"><a href=""></a>    <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">10</span><span class="op">,</span> logMin <span class="op">+</span> i <span class="op">*</span> step)</span>
+<span id="cb8-9"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb8-10"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-8" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<!-- viewof --- a visible input widget -->
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb9" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb9--1"><a href=""></a>viewof eddington_cut_index <span class="op">=</span> {</span>
+<span id="cb9-0"><a href=""></a>  <span class="kw">const</span> minIndex <span class="op">=</span> d3<span class="op">.</span><span class="fu">bisectLeft</span>(eddington_bins<span class="op">,</span> <span class="fl">1.2</span>)<span class="op">;</span></span>
+<span id="cb9-1"><a href=""></a>  <span class="kw">const</span> maxIndex <span class="op">=</span> d3<span class="op">.</span><span class="fu">bisectRight</span>(eddington_bins<span class="op">,</span> <span class="dv">4</span>) <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb9-2"><a href=""></a>  <span class="kw">const</span> value <span class="op">=</span> d3<span class="op">.</span><span class="fu">bisectLeft</span>(eddington_bins<span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href=""></a>  <span class="kw">const</span> <span class="bu">root</span> <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;label style="display: flex; align-items: center; gap: 0.55em;"&gt;</span></span>
+<span id="cb9-4"><a href=""></a><span class="vs">    &lt;span&gt;Flux cut&lt;/span&gt;</span></span>
+<span id="cb9-5"><a href=""></a><span class="vs">    &lt;input type="range" min=</span><span class="sc">${</span>minIndex<span class="sc">}</span><span class="vs"> max=</span><span class="sc">${</span>maxIndex<span class="sc">}</span><span class="vs"> step="1" value=</span><span class="sc">${</span>value<span class="sc">}</span><span class="vs">&gt;</span></span>
+<span id="cb9-6"><a href=""></a><span class="vs">    &lt;span style="font-variant-numeric: tabular-nums; min-width: 2.8em;"&gt;&lt;/span&gt;</span></span>
+<span id="cb9-7"><a href=""></a><span class="vs">  &lt;/label&gt;`</span><span class="op">;</span></span>
+<span id="cb9-8"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">"input"</span>)<span class="op">;</span></span>
+<span id="cb9-9"><a href=""></a>  <span class="kw">const</span> output <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">"span:last-child"</span>)<span class="op">;</span></span>
+<span id="cb9-10"><a href=""></a></span>
+<span id="cb9-11"><a href=""></a>  <span class="bu">root</span><span class="op">.</span><span class="at">value</span> <span class="op">=</span> input<span class="op">.</span><span class="at">valueAsNumber</span><span class="op">;</span></span>
+<span id="cb9-12"><a href=""></a>  output<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> eddington_bins[<span class="bu">root</span><span class="op">.</span><span class="at">value</span>]<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb9-13"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">"input"</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb9-14"><a href=""></a>    <span class="bu">root</span><span class="op">.</span><span class="at">value</span> <span class="op">=</span> input<span class="op">.</span><span class="at">valueAsNumber</span><span class="op">;</span></span>
+<span id="cb9-15"><a href=""></a>    output<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> eddington_bins[<span class="bu">root</span><span class="op">.</span><span class="at">value</span>]<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb9-16"><a href=""></a>    <span class="bu">root</span><span class="op">.</span><span class="fu">dispatchEvent</span>(<span class="kw">new</span> <span class="bu">Event</span>(<span class="st">"input"</span><span class="op">,</span> { <span class="dt">bubbles</span><span class="op">:</span> <span class="kw">true</span> }))<span class="op">;</span></span>
+<span id="cb9-17"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb9-18"><a href=""></a></span>
+<span id="cb9-19"><a href=""></a>  <span class="cf">return</span> <span class="bu">root</span><span class="op">;</span></span>
+<span id="cb9-20"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-9" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb10" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb10--1"><a href=""></a>eddington_cut <span class="op">=</span> eddington_bins[eddington_cut_index]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-10" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb11" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb11--1"><a href=""></a>viewof eddington_noise <span class="op">=</span> {</span>
+<span id="cb11-0"><a href=""></a>  <span class="kw">const</span> <span class="bu">root</span> <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;label style="display: flex; align-items: center; gap: 0.55em;"&gt;</span></span>
+<span id="cb11-1"><a href=""></a><span class="vs">    &lt;span&gt;Noise&lt;/span&gt;</span></span>
+<span id="cb11-2"><a href=""></a><span class="vs">    &lt;input class="eddington-noise-slider" type="range" min="0" max="1.5" step="0.025" value="0.0"&gt;</span></span>
+<span id="cb11-3"><a href=""></a><span class="vs">    &lt;span style="font-variant-numeric: tabular-nums; min-width: 2.8em;"&gt;&lt;/span&gt;</span></span>
+<span id="cb11-4"><a href=""></a><span class="vs">  &lt;/label&gt;`</span><span class="op">;</span></span>
+<span id="cb11-5"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">"input"</span>)<span class="op">;</span></span>
+<span id="cb11-6"><a href=""></a>  <span class="kw">const</span> output <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">"span:last-child"</span>)<span class="op">;</span></span>
+<span id="cb11-7"><a href=""></a></span>
+<span id="cb11-8"><a href=""></a>  <span class="bu">root</span><span class="op">.</span><span class="at">value</span> <span class="op">=</span> input<span class="op">.</span><span class="at">valueAsNumber</span><span class="op">;</span></span>
+<span id="cb11-9"><a href=""></a>  output<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="at">value</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb11-10"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">"input"</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb11-11"><a href=""></a>    <span class="bu">root</span><span class="op">.</span><span class="at">value</span> <span class="op">=</span> input<span class="op">.</span><span class="at">valueAsNumber</span><span class="op">;</span></span>
+<span id="cb11-12"><a href=""></a>    output<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="at">value</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb11-13"><a href=""></a>    <span class="bu">root</span><span class="op">.</span><span class="fu">dispatchEvent</span>(<span class="kw">new</span> <span class="bu">Event</span>(<span class="st">"input"</span><span class="op">,</span> { <span class="dt">bubbles</span><span class="op">:</span> <span class="kw">true</span> }))<span class="op">;</span></span>
+<span id="cb11-14"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb11-15"><a href=""></a></span>
+<span id="cb11-16"><a href=""></a>  <span class="cf">return</span> <span class="bu">root</span><span class="op">;</span></span>
+<span id="cb11-17"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-11" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb12" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb12--1"><a href=""></a>eddington_samples <span class="op">=</span> {</span>
+<span id="cb12-0"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">60000</span><span class="op">;</span></span>
+<span id="cb12-1"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb12-2"><a href=""></a>  <span class="kw">const</span> sLow <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb12-3"><a href=""></a>  <span class="kw">const</span> rng <span class="op">=</span> d3<span class="op">.</span><span class="fu">randomLcg</span>(<span class="dv">42</span>)<span class="op">;</span></span>
+<span id="cb12-4"><a href=""></a></span>
+<span id="cb12-5"><a href=""></a>  <span class="cf">return</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ <span class="dt">length</span><span class="op">:</span> n }<span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb12-6"><a href=""></a>    <span class="kw">const</span> trueFlux <span class="op">=</span> sLow <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> <span class="fu">rng</span>()<span class="op">,</span> <span class="op">-</span><span class="dv">1</span> <span class="op">/</span> x)<span class="op">;</span></span>
+<span id="cb12-7"><a href=""></a>    <span class="cf">return</span> { trueFlux }<span class="op">;</span></span>
+<span id="cb12-8"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb12-9"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-12" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb13" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb13--1"><a href=""></a>eddington_histogram <span class="op">=</span> {</span>
+<span id="cb13-0"><a href=""></a>  <span class="kw">const</span> xMin <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-1"><a href=""></a>  <span class="kw">const</span> xMax <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb13-2"><a href=""></a>  <span class="kw">const</span> bins <span class="op">=</span> eddington_bins<span class="op">;</span></span>
+<span id="cb13-3"><a href=""></a>  <span class="kw">const</span> nBins <span class="op">=</span> bins<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a>  <span class="kw">function</span> <span class="fu">histogram</span>(values<span class="op">,</span> series<span class="op">,</span> color<span class="op">,</span> opacity) {</span>
+<span id="cb13-6"><a href=""></a>    <span class="kw">const</span> counts <span class="op">=</span> <span class="bu">Array</span>(nBins)<span class="op">.</span><span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb13-7"><a href=""></a>    <span class="cf">for</span> (<span class="kw">const</span> value <span class="kw">of</span> values) {</span>
+<span id="cb13-8"><a href=""></a>      <span class="cf">if</span> (value <span class="op">&lt;</span> xMin <span class="op">||</span> value <span class="op">&gt;=</span> xMax) <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb13-9"><a href=""></a>      <span class="kw">const</span> i <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(</span>
+<span id="cb13-10"><a href=""></a>        nBins <span class="op">-</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb13-11"><a href=""></a>        d3<span class="op">.</span><span class="fu">bisectRight</span>(bins<span class="op">,</span> value) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb13-12"><a href=""></a>      )<span class="op">;</span></span>
+<span id="cb13-13"><a href=""></a>      counts[i] <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-14"><a href=""></a>    }</span>
+<span id="cb13-15"><a href=""></a>    <span class="cf">return</span> counts<span class="op">.</span><span class="fu">map</span>((count<span class="op">,</span> i) <span class="kw">=&gt;</span> ({</span>
+<span id="cb13-16"><a href=""></a>      <span class="dt">x0</span><span class="op">:</span> bins[i]<span class="op">,</span></span>
+<span id="cb13-17"><a href=""></a>      <span class="dt">x1</span><span class="op">:</span> bins[i <span class="op">+</span> <span class="dv">1</span>]<span class="op">,</span></span>
+<span id="cb13-18"><a href=""></a>      count<span class="op">,</span></span>
+<span id="cb13-19"><a href=""></a>      series<span class="op">,</span></span>
+<span id="cb13-20"><a href=""></a>      color<span class="op">,</span></span>
+<span id="cb13-21"><a href=""></a>      opacity</span>
+<span id="cb13-22"><a href=""></a>    }))<span class="op">;</span></span>
+<span id="cb13-23"><a href=""></a>  }</span>
+<span id="cb13-24"><a href=""></a></span>
+<span id="cb13-25"><a href=""></a>  <span class="kw">const</span> fluxError <span class="op">=</span></span>
+<span id="cb13-26"><a href=""></a>    eddington_noise <span class="op">===</span> <span class="dv">0</span></span>
+<span id="cb13-27"><a href=""></a>      <span class="op">?</span> () <span class="kw">=&gt;</span> <span class="dv">0</span></span>
+<span id="cb13-28"><a href=""></a>      <span class="op">:</span> d3<span class="op">.</span><span class="at">randomNormal</span><span class="op">.</span><span class="fu">source</span>(d3<span class="op">.</span><span class="fu">randomLcg</span>(<span class="dv">314</span>))(<span class="dv">0</span><span class="op">,</span> eddington_noise)<span class="op">;</span></span>
+<span id="cb13-29"><a href=""></a>  <span class="kw">const</span> measuredSources <span class="op">=</span> eddington_samples<span class="op">.</span><span class="fu">map</span>((d) <span class="kw">=&gt;</span> {</span>
+<span id="cb13-30"><a href=""></a>    <span class="kw">const</span> sampledFlux <span class="op">=</span> d<span class="op">.</span><span class="at">trueFlux</span> <span class="op">+</span> <span class="fu">fluxError</span>()<span class="op">;</span></span>
+<span id="cb13-31"><a href=""></a>    <span class="cf">return</span> {</span>
+<span id="cb13-32"><a href=""></a>      <span class="dt">trueFlux</span><span class="op">:</span> d<span class="op">.</span><span class="at">trueFlux</span><span class="op">,</span></span>
+<span id="cb13-33"><a href=""></a>      sampledFlux<span class="op">,</span></span>
+<span id="cb13-34"><a href=""></a>      <span class="dt">included</span><span class="op">:</span> sampledFlux <span class="op">&gt;</span> eddington_cut</span>
+<span id="cb13-35"><a href=""></a>    }<span class="op">;</span></span>
+<span id="cb13-36"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb13-37"><a href=""></a>  <span class="kw">const</span> includedSources <span class="op">=</span> measuredSources<span class="op">.</span><span class="fu">filter</span>((d) <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">included</span>)<span class="op">;</span></span>
+<span id="cb13-38"><a href=""></a>  <span class="kw">const</span> trueFlux <span class="op">=</span> eddington_samples<span class="op">.</span><span class="fu">map</span>((d) <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">trueFlux</span>)<span class="op">;</span></span>
+<span id="cb13-39"><a href=""></a>  <span class="kw">const</span> sampledFlux <span class="op">=</span> includedSources<span class="op">.</span><span class="fu">map</span>((d) <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">sampledFlux</span>)<span class="op">;</span></span>
+<span id="cb13-40"><a href=""></a></span>
+<span id="cb13-41"><a href=""></a>  <span class="cf">return</span> [</span>
+<span id="cb13-42"><a href=""></a>    <span class="op">...</span><span class="fu">histogram</span>(trueFlux<span class="op">,</span> <span class="st">"True distribution"</span><span class="op">,</span> <span class="st">"#598aea"</span><span class="op">,</span> <span class="fl">0.3</span>)<span class="op">,</span></span>
+<span id="cb13-43"><a href=""></a>    <span class="op">...</span><span class="fu">histogram</span>(sampledFlux<span class="op">,</span> <span class="st">"Sampled above cut"</span><span class="op">,</span> <span class="st">"#ff583e"</span><span class="op">,</span> <span class="fl">0.4</span>)</span>
+<span id="cb13-44"><a href=""></a>  ]<span class="op">;</span></span>
+<span id="cb13-45"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-13" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb14" data-startfrom="-1" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -2;"><span id="cb14--1"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb14-0"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">720</span><span class="op">,</span></span>
+<span id="cb14-1"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">410</span><span class="op">,</span></span>
+<span id="cb14-2"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">72</span><span class="op">,</span></span>
+<span id="cb14-3"><a href=""></a>  <span class="dt">marginRight</span><span class="op">:</span> <span class="dv">24</span><span class="op">,</span></span>
+<span id="cb14-4"><a href=""></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">34</span><span class="op">,</span></span>
+<span id="cb14-5"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb14-6"><a href=""></a>  <span class="dt">style</span><span class="op">:</span> {</span>
+<span id="cb14-7"><a href=""></a>    <span class="dt">fontFamily</span><span class="op">:</span> <span class="st">"Fira Sans, Helvetica, sans-serif"</span><span class="op">,</span></span>
+<span id="cb14-8"><a href=""></a>    <span class="dt">fontSize</span><span class="op">:</span> <span class="st">"15px"</span></span>
+<span id="cb14-9"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb14-10"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb14-11"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span></span>
+<span id="cb14-12"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">30</span>]<span class="op">,</span></span>
+<span id="cb14-13"><a href=""></a>    <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> eddington_cut<span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span></span>
+<span id="cb14-14"><a href=""></a>    <span class="dt">tickFormat</span><span class="op">:</span> (d) <span class="kw">=&gt;</span></span>
+<span id="cb14-15"><a href=""></a>      d <span class="op">===</span> eddington_cut <span class="op">?</span> d<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>) <span class="op">:</span> d3<span class="op">.</span><span class="fu">format</span>(<span class="st">"~g"</span>)(d)<span class="op">,</span></span>
+<span id="cb14-16"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Flux density (brightness)"</span></span>
+<span id="cb14-17"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb14-18"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
+<span id="cb14-19"><a href=""></a>    <span class="dt">grid</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb14-20"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Count in each flux bin"</span></span>
+<span id="cb14-21"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb14-22"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb14-23"><a href=""></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(eddington_histogram<span class="op">,</span> {</span>
+<span id="cb14-24"><a href=""></a>      <span class="dt">x1</span><span class="op">:</span> <span class="st">"x0"</span><span class="op">,</span></span>
+<span id="cb14-25"><a href=""></a>      <span class="dt">x2</span><span class="op">:</span> <span class="st">"x1"</span><span class="op">,</span></span>
+<span id="cb14-26"><a href=""></a>      <span class="dt">y1</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb14-27"><a href=""></a>      <span class="dt">y2</span><span class="op">:</span> <span class="st">"count"</span><span class="op">,</span></span>
+<span id="cb14-28"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"color"</span><span class="op">,</span></span>
+<span id="cb14-29"><a href=""></a>      <span class="dt">fillOpacity</span><span class="op">:</span> <span class="st">"opacity"</span><span class="op">,</span></span>
+<span id="cb14-30"><a href=""></a>      <span class="dt">inset</span><span class="op">:</span> <span class="dv">0</span></span>
+<span id="cb14-31"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb14-32"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(eddington_histogram<span class="op">,</span> {</span>
+<span id="cb14-33"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x0"</span><span class="op">,</span></span>
+<span id="cb14-34"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span><span class="op">,</span></span>
+<span id="cb14-35"><a href=""></a>      <span class="dt">z</span><span class="op">:</span> <span class="st">"series"</span><span class="op">,</span></span>
+<span id="cb14-36"><a href=""></a>      <span class="dt">curve</span><span class="op">:</span> <span class="st">"step-after"</span><span class="op">,</span></span>
+<span id="cb14-37"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"color"</span><span class="op">,</span></span>
+<span id="cb14-38"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb14-39"><a href=""></a>      <span class="dt">strokeOpacity</span><span class="op">:</span> <span class="fl">0.95</span></span>
+<span id="cb14-40"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb14-41"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([eddington_cut]<span class="op">,</span> {</span>
+<span id="cb14-42"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#222"</span><span class="op">,</span></span>
+<span id="cb14-43"><a href=""></a>      <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,4"</span><span class="op">,</span></span>
+<span id="cb14-44"><a href=""></a>      <span class="dt">strokeOpacity</span><span class="op">:</span> <span class="fl">0.55</span></span>
+<span id="cb14-45"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb14-46"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>]<span class="op">,</span> {</span>
+<span id="cb14-47"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#000"</span><span class="op">,</span></span>
+<span id="cb14-48"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.8</span></span>
+<span id="cb14-49"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb14-50"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([<span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb14-51"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#000"</span><span class="op">,</span></span>
+<span id="cb14-52"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.8</span></span>
+<span id="cb14-53"><a href=""></a>    })</span>
+<span id="cb14-54"><a href=""></a>  ]</span>
+<span id="cb14-55"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-14" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<div class="fragment-slider-steps" data-slider-selector=".eddington-noise-slider" data-slider-output-selector=".eddington-demo [data-nodetype='expression']" data-slider-display-selector="span:last-child" data-slider-value-decimals="2" data-slider-duration="250">
+<p><span class="fragment" data-slider-value="0.25" style=""></span> <span class="fragment" data-slider-value="0.50" style=""></span> <span class="fragment" data-slider-value="0.75" style=""></span> <span class="fragment" data-slider-value="1.00" style=""></span> <span class="fragment" data-slider-value="1.25" style=""></span> <span class="fragment" data-slider-value="1.50" style=""></span></p>
+</div>
+<script src="scripts/fragment_background_zoom.js"></script>
+<div class="fragment">
+<p>What if the noise varies over the sky? 🤔</p>
+</div>
+</section></section>
+<section>
+<section id="this-is-just-something-we-can-simulate" class="title-slide slide level1 center">
+<h1>This is just something we can simulate!</h1>
+
+</section>
+<section id="simulations" class="slide level2 top-slide eddington-interactive" style="--top-slide-padding: 1em;">
+<h2>Simulations</h2>
+<div class="columns double-columns">
+<div class="column" style="width:40%;">
+<link rel="stylesheet" href="plugins/reveal-flowchart/revealjs-diagram.css">
+<script src="plugins/reveal-flowchart/revealjs-diagram.js"></script>
+<script>
+(() => {
+  function installRevealFlowchart() {
+    if (!window.Reveal || !window.RevealFlowchart) return;
+    window.RevealFlowchart.init(window.Reveal);
+  }
+
+  if (window.Reveal?.isReady?.()) {
+    installRevealFlowchart();
+  } else if (window.Reveal?.on) {
+    window.Reveal.on("ready", installRevealFlowchart);
+  } else {
+    window.addEventListener("load", installRevealFlowchart);
+  }
+})();
+</script>
+<div class="reveal-flowchart" data-flowchart-id="simulations" data-flowchart-fragments="true" data-flowchart-node-width="400" data-flowchart-node-height="90" data-flowchart-gap="34" style="--flowchart-node-font-size: 0.7em;">
+  <script type="application/json">
+  {
+    "direction": "vertical",
+    "steps": [
+      {
+        "id": "sources",
+        "label": "Draw sources on isotropic sky<br>& sample magnitudes"
+      },
+      {
+        "id": "relativity",
+        "label": "Do special relativity"
+      },
+      {
+        "id": "errors",
+        "label": "Add photometric <span class='accent'>errors</span>"
+      },
+      {
+        "id": "cuts",
+        "label": "Make magnitude cuts & mask"
+      },
+      {
+        "id": "output",
+        "label": "<strong>Output:</strong> CatSIM density map"
+      }
+    ]
+  }
+  </script>
+</div>
+</div><div class="column center-column" style="width:60%;">
+<div class="r-stack wide-stack">
+<div class="fragment fade-in-then-out" data-fragment-index="2">
+<p><img data-src="figures/cov_mag_error_heatmap.svg" width="325"></p>
+<div class="simulation-equation">
+<p><span class="math display">\[m'_{\nu } \to m'_{\nu} + \alertmath{\Delta m'_{\nu}} \]</span></p>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="4">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catsim_dmap.svg" style="width:100.0%"></p>
+<figcaption>Simulated quasar map</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in" data-fragment-index="5">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/catwise_density_map.svg" style="width:100.0%"></p>
+<figcaption>Actual quasar map</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="one-thing-left-to-do" class="slide level2 moses-viewport fragment-background-zoom" data-background-image="figures/moses_commandment_v2.jpg" data-background-size="cover" data-background-position="center top" data-background-zoom-fragment="0" data-background-zoom-scale="1.75" data-background-zoom-duration="1200" data-background-zoom-origin="0% 0%" data-background-print-translate-y="100px" style="--moses-content-gap: 3em; --moses-content-top: 4em">
+<h2>One Thing Left To Do…</h2>
+<div class="fragment fragment-background-zoom-step" data-fragment-index="0">
+
+</div>
+<div class="moses-content">
+<div class="fragment primary-box bayes-rule-box fade-up" data-fragment-index="1">
+<p><span class="math inline">\(\text{Posterior} = \dfrac{\text{Prior} \times \alertmath{\text{Likelihood}} }{\text{Evidence}}\)</span></p>
+</div>
+<div class="fragment primary-box moses-explain-box" data-fragment-index="2">
+  <ul>
+    <li>Don't know \(\alertmath{\mathcal{L}}\)? No problem!</li>
+    <li class="fragment" data-fragment-index="3">
+      Take data-generating process \(f_M: \mathbf{\theta} \to \mathbf{x}\).
+    </li>
+    <li class="fragment" data-fragment-index="4">
+      Use a neural network to learn \(\alertmath{\mathcal{L}}\).
+    </li>
+    <li class="fragment" data-fragment-index="5">
+      This is <strong>SBI</strong>.
+    </li>
+  </ul>
+</div>
+</div>
+</section>
+<section id="normalising-flows" class="slide level2">
+<h2>Normalising Flows</h2>
+<ul>
+  <li class="fragment" data-fragment-index="0">
+    <strong>Goal:</strong> describe the <span class="math inline">\(d\)</span>-dimensional base distribution
+    <a href=".alert">\({\mathcal{L}(\mathbf{x}\mid\boldsymbol{\theta})}\)</a>.
+  </li>
+  <li class="fragment" data-fragment-index="1">
+    We use a series of <strong>Masked Autoregressive Flows</strong> (MAFs).
+  </li>
+  <li class="fragment" data-fragment-index="2">
+    A <em>flow</em> transforms a simple distribution into a complex one.
+  </li>
+</ul>
+<div class="r-stack wide-stack">
+<div class="fragment fade-in-then-out" data-fragment-index="3">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/flow_composition.svg" style="width:95.0%"></p>
+<figcaption>Composing individual bijections, adapted from Papamakarios et al.&nbsp;(2019).</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment fade-in" data-fragment-index="4">
+<p><img data-src="figures/flow_samples_demo.svg" style="width:100.0%"></p>
+</div>
+</div>
+</section></section>
+<section>
+<section id="results" class="title-slide slide level1 center">
+<h1>Results</h1>
+
+</section>
+<section id="bayes-factors" class="slide level2">
+<h2>Bayes Factors</h2>
+<div class="bayes-factor-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Model</th>
+<th colspan="3" data-quarto-table-cell-role="th">\(\ln \mathcal{B}\)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="fragment odd" data-fragment-index="1">
+<td>Dipole from Secrest+21</td>
+<td class="bayes-value">\(2.8\)</td>
+<td class="bayes-pm">\(\pm\)</td>
+<td class="bayes-uncertainty">\(0.9\)</td>
+</tr>
+<tr class="fragment even" data-fragment-index="1">
+<td>Dipole from Dam+23</td>
+<td class="bayes-value">\(1.9\)</td>
+<td class="bayes-pm">\(\pm\)</td>
+<td class="bayes-uncertainty">\(0.8\)</td>
+</tr>
+<tr class="fragment odd" data-fragment-index="0">
+<td><strong>Free dipole, extra error, Gaussian</strong></td>
+<td class="bayes-value">\(0.0\)</td>
+<td class="bayes-pm">\(\pm\)</td>
+<td class="bayes-uncertainty">\(0.0\)</td>
+</tr>
+<tr class="fragment even" data-fragment-index="3">
+<td>CMB direction, free velocity</td>
+<td class="bayes-value">\(-2.4\)</td>
+<td class="bayes-pm">\(\pm\)</td>
+<td class="bayes-uncertainty">\(0.9\)</td>
+</tr>
+<tr class="fragment odd" data-fragment-index="2">
+<td>CMB velocity &amp; direction</td>
+<td class="bayes-value">\(-8.3\)</td>
+<td class="bayes-pm">\(\pm\)</td>
+<td class="bayes-uncertainty">\(0.9\)</td>
+</tr>
+<tr class="fragment even" data-fragment-index="5">
+<td>Free dipole, no extra error</td>
+<td class="bayes-value">\(-113.6\)</td>
+<td class="bayes-pm">\(\pm\)</td>
+<td class="bayes-uncertainty">\(6.4\)</td>
+</tr>
+</tbody>
+</table>
+<p>Bayes factors with respect to the <a href=".alert">fiducial model</a>.</p>
+</div>
+<div class="fragment">
+<ul>
+<li><em>We need an <strong>extra error</strong> term to explain the data.</em></li>
+<li>CMB dipole is ruled out convincingly.</li>
+</ul>
+</div>
+</section>
+<section id="catsim-results" class="slide level2">
+<h2>CatSIM Results</h2>
+
+<img data-src="figures/corner_and_sky.svg" class="r-stretch"><div class="fragment absolute" style="top: 50%; left: 64%; ">
+<p><a href=".alert">Confirms</a> cosmic dipole tension.</p>
+</div>
+</section></section>
+<section>
+<section id="weve-got-to-be-careful-of-our-instruments" class="title-slide slide level1 center">
+<h1>We’ve got to be careful of our instruments!</h1>
+
+</section>
+<section id="cracking-into-racs" class="slide level2">
+<h2>Cracking into RACS?</h2>
+<div class="columns double-columns">
+<div class="column fragment" data-fragment-index="0" style="width:50%;">
+<p><img data-src="figures/racs-low3.svg"> <img data-src="figures/racs-mid1.svg"></p>
+</div><div class="column center-column" style="width:50%;">
+<p><img data-src="figures/figx-skymap.png" class="fragment" style="width:85.0%" data-fragment-index="1"></p>
+</div></div>
+<div class="fragment" data-fragment-index="2">
+<p>Oayda et al.&nbsp;in preparation, coming very soon…</p>
+</div>
+</section>
+<section id="section" class="slide level2 standout">
+<h2></h2>
+<div class="standout-banner">
+<p><img data-src="figures/oayda+26_banner_transp.png" width="800"></p>
+</div>
+<ul>
+<li class="fragment">Describe and account for ecliptic bias <span class="checkmark" style=""><span class="math inline">\(\checkmark\)</span></span></li>
+<li class="fragment">Measure cosmic dipole <span class="checkmark" style=""><span class="math inline">\(\checkmark\)</span></span></li>
+<li class="fragment">Leverage power of simulations and SBI <span class="checkmark" style=""><span class="math inline">\(\checkmark\)</span></span></li>
+</ul>
+<div class="fragment">
+<div class="final-contact-links">
+<div class="final-contact-link">
+<p><img data-src="figures/web_favicon.svg" class="final-contact-icon"> <a href="https://oayda.net" class="final-contact-label">oayda.net</a></p>
+</div>
+<div class="final-contact-link">
+<p><img data-src="figures/github_favicon.svg" class="final-contact-icon"> <a href="https://github.com/o-oayda" class="final-contact-label">o-oayda</a></p>
+</div>
+</div>
+</div>
+</section>
+<section id="validation" class="slide level2">
+<h2>Validation</h2>
+<div class="columns double-columns">
+<div class="column" style="width:50%;">
+<p><img data-src="figures/corner_evidence_acc_example.svg" style="width:100.0%"></p>
+</div><div class="column center-column" style="width:50%;">
+<p><img data-src="figures/evidence_evolution.svg" style="width:100.0%"></p>
+</div></div>
+
+<div class="reveal-header" data-header-scale="auto">
+<div class="header-title">
+<p> </p>
+</div>
+<div class="header-logo">
+<img data-src="">
+</div>
+</div>
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slides_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slides_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': true,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        maxScale: 4,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script>
+    (() => {
+      function setEventRuleWidth(eventTitle, date, eventRule) {
+        if (!eventRule) return;
+        const extraWidth = -40;
+        const measureTextWidth = (element) => {
+          if (!element) return 0;
+          const range = document.createRange();
+          range.selectNodeContents(element);
+          const width = range.getBoundingClientRect().width;
+          range.detach();
+          return width;
+        };
+        const titleWidth = measureTextWidth(eventTitle);
+        const dateWidth = measureTextWidth(date);
+        const ruleWidth = Math.max(0, Math.ceil(Math.max(titleWidth, dateWidth) + extraWidth));
+        eventRule.style.width = `${ruleWidth}px`;
+      }
+
+      function installTitleFooter() {
+        const config = {
+          institutionLogo: null,
+          institutionLogoAlt: "",
+    	      eventImage: null,
+    	      eventImageAlt: "",
+    	      eventTitle: "",
+    	      logoHeight: null,
+    	      supervisors: [],
+    	      ...window.titleFooterConfig
+    	    };
+
+    	    const titleSlide = document.getElementById("title-slide");
+    	    if (!titleSlide || titleSlide.querySelector(".title-footer")) return;
+    	    let titleFrame = titleSlide.querySelector(":scope > .title-slide-frame");
+    	    if (!titleFrame) {
+    	      titleFrame = document.createElement("div");
+    	      titleFrame.className = "title-slide-frame";
+    	      while (titleSlide.firstChild) {
+    	        titleFrame.append(titleSlide.firstChild);
+    	      }
+    	      titleSlide.append(titleFrame);
+    	    }
+    	
+    	    const revealConfig = window.Reveal?.getConfig?.();
+    	    if (revealConfig?.height) {
+    	      titleSlide.style.setProperty("--title-slide-height", `${revealConfig.height}px`);
+    	    }
+    	
+    	    const authors = titleFrame.querySelector(".quarto-title-authors");
+    	    if (authors && config.supervisors.length && !authors.querySelector(".title-supervisor-list")) {
+    	      const supervisorLabel = document.createElement("div");
+    	      supervisorLabel.className = "title-supervisor-label";
+    	      supervisorLabel.textContent = "Supervised by";
+    	
+    	      const supervisorList = document.createElement("div");
+    	      supervisorList.className = "title-supervisor-list";
+    	      config.supervisors.forEach((supervisor) => {
+    	        const supervisorName = document.createElement("div");
+    	        supervisorName.className = "title-supervisor-name";
+    	        supervisorName.textContent = supervisor;
+    	        supervisorList.append(supervisorName);
+    	      });
+    	
+    	      authors.append(supervisorLabel, supervisorList);
+    	    }
+    	
+    	    if (!config.institutionLogo && !config.eventImage && !config.eventTitle) return;
+
+        if (config.logoHeight) {
+          titleSlide.style.setProperty("--event-block-height", config.logoHeight);
+        }
+
+        const date = titleFrame.querySelector(":scope > .date");
+        const footer = document.createElement("div");
+        footer.className = "title-footer";
+
+        const institutionLogo = document.createElement("img");
+        institutionLogo.className = "title-footer-institution-logo";
+        if (config.institutionLogo) institutionLogo.src = config.institutionLogo;
+        institutionLogo.alt = config.institutionLogoAlt;
+
+        const event = document.createElement("div");
+        event.className = "title-footer-event";
+        if (!config.eventImage) {
+          event.classList.add("title-footer-event-no-image");
+        }
+
+        const eventText = document.createElement("div");
+        eventText.className = "title-footer-event-text";
+
+        const hasEventTitle = String(config.eventTitle).trim().length > 0;
+        let eventTitle = null;
+        let eventRule = null;
+        if (hasEventTitle) {
+          eventTitle = document.createElement("div");
+          eventTitle.className = "title-footer-event-title";
+          eventTitle.textContent = config.eventTitle;
+
+          eventRule = document.createElement("div");
+          eventRule.className = "title-footer-event-rule";
+          eventText.append(eventTitle, eventRule);
+        } else {
+          eventText.classList.add("title-footer-event-text-date-only");
+        }
+
+        if (date) {
+          date.className = "title-footer-date";
+          eventText.append(date);
+        }
+
+        const eventImage = document.createElement("img");
+        eventImage.className = "title-footer-event-image";
+        if (config.eventImage) eventImage.src = config.eventImage;
+        eventImage.alt = config.eventImageAlt;
+
+        event.append(eventText, eventImage);
+        footer.append(institutionLogo, event);
+        titleFrame.append(footer);
+
+        if (eventRule) {
+          setEventRuleWidth(eventTitle, date, eventRule);
+          document.fonts?.ready?.then(() => setEventRuleWidth(eventTitle, date, eventRule));
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", installTitleFooter);
+      } else {
+        installTitleFooter();
+      }
+    })();
+    </script>
+    <script>
+    (() => {
+      function setHeaderClearance() {
+        const reveal = document.querySelector(".reveal");
+        const header = document.querySelector(".reveal-header");
+        const backgrounds = document.querySelector(".reveal .backgrounds");
+        if (!reveal || !header || !backgrounds) return;
+
+        const headerBottom = header.getBoundingClientRect().bottom;
+        const backgroundTop = backgrounds.getBoundingClientRect().top;
+        const clearance = Math.max(0, Math.ceil(headerBottom - backgroundTop));
+        reveal.style.setProperty("--deck-header-clearance", `${clearance}px`);
+      }
+
+      function installHeaderClearance() {
+        setHeaderClearance();
+        requestAnimationFrame(setHeaderClearance);
+        window.Reveal?.on?.("ready", setHeaderClearance);
+        window.Reveal?.on?.("slidechanged", setHeaderClearance);
+        window.addEventListener("resize", setHeaderClearance);
+
+        const header = document.querySelector(".reveal-header");
+        if (header && "ResizeObserver" in window) {
+          new ResizeObserver(setHeaderClearance).observe(header);
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", installHeaderClearance);
+      } else {
+        installHeaderClearance();
+      }
+    })();
+    </script>
+    <script>
+    (() => {
+      const targetSelector = ".bayes-rule-box";
+
+      function rerenderMathInTarget(target) {
+        const box = target?.matches?.(targetSelector)
+          ? target
+          : target?.querySelector?.(targetSelector);
+
+        if (!box || !window.MathJax?.Hub?.Queue) return;
+
+        window.MathJax.Hub.Queue(["Rerender", window.MathJax.Hub, box]);
+        window.MathJax.Hub.Queue(() => window.Reveal?.layout?.());
+      }
+
+      function installMathFragmentLayout() {
+        window.Reveal?.on?.("slidechanged", (event) => {
+          rerenderMathInTarget(event.currentSlide);
+        });
+        window.Reveal?.on?.("fragmentshown", (event) => {
+          rerenderMathInTarget(event.fragment);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", installMathFragmentLayout);
+      } else {
+        installMathFragmentLayout();
+      }
+    })();
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ii8vIEZpeGVkIHNpbXVsYXRpb24gaW5wdXRzLiBLZWVwaW5nIHRoZXNlIHRvZ2V0aGVyIG1ha2VzIHRoZSBhc3N1bWVkIHBoeXNpY3Ncbi8vIGFuZCB0aGUgcGxvdHRlZCBwb3B1bGF0aW9uIHN0cmFpZ2h0Zm9yd2FyZCB0byBhdWRpdC5cbmRvcHBsZXJfY29uZmlnID0gKHtcbiAgblNvdXJjZXM6IDYwMDAwLFxuICByYW5kb21TZWVkOiA3MyxcbiAgZGlmZmVyZW50aWFsQ291bnRJbmRleDogMi41LCAvLyBkTi9kU19udSBwcm9wb3J0aW9uYWwgdG8gU19udV4oLTIuNSlcbiAgbWluRmx1eDogMSxcbiAgbWF4Rmx1eDogMTAwLFxuICBwbG90TWF4Rmx1eDogMjAwLFxuICBuQmluczogNTIsXG4gIHNwZWN0cmFsSW5kZXg6IDEsXG4gIGNvc1RoZXRhOiAxLCAgICAgICAgICAgICAgICAgLy8gc21hbGwgcGF0Y2ggaW4gdGhlIGZvcndhcmQgaGVtaXNwaGVyZVxuICBmbHV4Q3V0OiA1XG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiLy8gSW52ZXJzZS1DREYgc2FtcGxlcyBmcm9tIHRoZSB0cnVuY2F0ZWQgZGlmZmVyZW50aWFsIHBvd2VyIGxhd1xuLy8gcChTX251KSBwcm9wb3J0aW9uYWwgdG8gU19udV4oLXApLCBmb3IgU19taW4gPD0gU19udSA8PSBTX21heC5cbmRvcHBsZXJfcmVzdF9mbHV4ZXMgPSB7XG4gIGNvbnN0IHAgPSBkb3BwbGVyX2NvbmZpZy5kaWZmZXJlbnRpYWxDb3VudEluZGV4O1xuICBjb25zdCBleHBvbmVudCA9IDEgLSBwO1xuICBjb25zdCBsb3cgPSBNYXRoLnBvdyhkb3BwbGVyX2NvbmZpZy5taW5GbHV4LCBleHBvbmVudCk7XG4gIGNvbnN0IGhpZ2ggPSBNYXRoLnBvdyhkb3BwbGVyX2NvbmZpZy5tYXhGbHV4LCBleHBvbmVudCk7XG4gIGNvbnN0IHJuZyA9IGQzLnJhbmRvbUxjZyhkb3BwbGVyX2NvbmZpZy5yYW5kb21TZWVkKTtcblxuICByZXR1cm4gQXJyYXkuZnJvbSh7IGxlbmd0aDogZG9wcGxlcl9jb25maWcublNvdXJjZXMgfSwgKCkgPT5cbiAgICBNYXRoLnBvdyhsb3cgKyBybmcoKSAqIChoaWdoIC0gbG93KSwgMSAvIGV4cG9uZW50KVxuICApO1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0zIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiLy8gT2JzZXJ2ZXItZnJhbWUgdHJhbnNmb3JtYXRpb24gcmVxdWVzdGVkIGZvciB0aGUgZm9yd2FyZCBwYXRjaDpcbi8vICAgZ2FtbWEgPSAxIC8gc3FydCgxIC0gYmV0YV4yKVxuLy8gICBkZWx0YSA9IGdhbW1hICgxICsgYmV0YSBjb3ModGhldGEpKVxuLy8gICBTJ19udSA9IFNfbnUgZGVsdGFeKDEgKyBhbHBoYSlcbmRvcHBsZXJfdHJhbnNmb3JtID0ge1xuICBjb25zdCBiZXRhID0gZG9wcGxlcl9iZXRhO1xuICBjb25zdCBnYW1tYSA9IDEgLyBNYXRoLnNxcnQoMSAtIGJldGEgKiBiZXRhKTtcbiAgY29uc3QgZGVsdGEgPSBnYW1tYSAqICgxICsgYmV0YSAqIGRvcHBsZXJfY29uZmlnLmNvc1RoZXRhKTtcbiAgY29uc3QgZmx1eE11bHRpcGxpZXIgPSBNYXRoLnBvdyhcbiAgICBkZWx0YSxcbiAgICAxICsgZG9wcGxlcl9jb25maWcuc3BlY3RyYWxJbmRleFxuICApO1xuXG4gIHJldHVybiB7IGJldGEsIGdhbW1hLCBkZWx0YSwgZmx1eE11bHRpcGxpZXIgfTtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNCIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImRvcHBsZXJfYmlucyA9IHtcbiAgY29uc3QgbG9nTWluID0gTWF0aC5sb2cxMChkb3BwbGVyX2NvbmZpZy5taW5GbHV4KTtcbiAgY29uc3QgbG9nTWF4ID0gTWF0aC5sb2cxMChkb3BwbGVyX2NvbmZpZy5wbG90TWF4Rmx1eCk7XG4gIGNvbnN0IHN0ZXAgPSAobG9nTWF4IC0gbG9nTWluKSAvIGRvcHBsZXJfY29uZmlnLm5CaW5zO1xuXG4gIHJldHVybiBBcnJheS5mcm9tKHsgbGVuZ3RoOiBkb3BwbGVyX2NvbmZpZy5uQmlucyArIDEgfSwgKF8sIGkpID0+XG4gICAgTWF0aC5wb3coMTAsIGxvZ01pbiArIGkgKiBzdGVwKVxuICApO1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC01IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiZG9wcGxlcl9oaXN0b2dyYW1zID0ge1xuICBmdW5jdGlvbiBoaXN0b2dyYW0odmFsdWVzLCBzZXJpZXMpIHtcbiAgICBjb25zdCBjb3VudHMgPSBBcnJheShkb3BwbGVyX2NvbmZpZy5uQmlucykuZmlsbCgwKTtcbiAgICBmb3IgKGNvbnN0IHZhbHVlIG9mIHZhbHVlcykge1xuICAgICAgaWYgKFxuICAgICAgICB2YWx1ZSA8IGRvcHBsZXJfY29uZmlnLm1pbkZsdXggfHxcbiAgICAgICAgdmFsdWUgPj0gZG9wcGxlcl9jb25maWcucGxvdE1heEZsdXhcbiAgICAgICkgY29udGludWU7XG5cbiAgICAgIGNvbnN0IGluZGV4ID0gTWF0aC5taW4oXG4gICAgICAgIGRvcHBsZXJfY29uZmlnLm5CaW5zIC0gMSxcbiAgICAgICAgZDMuYmlzZWN0UmlnaHQoZG9wcGxlcl9iaW5zLCB2YWx1ZSkgLSAxXG4gICAgICApO1xuICAgICAgY291bnRzW2luZGV4XSArPSAxO1xuICAgIH1cblxuICAgIGNvbnN0IGJhcnMgPSBjb3VudHNcbiAgICAgIC5tYXAoKGNvdW50LCBpKSA9PiAoe1xuICAgICAgICB4MDogZG9wcGxlcl9iaW5zW2ldLFxuICAgICAgICB4MTogZG9wcGxlcl9iaW5zW2kgKyAxXSxcbiAgICAgICAgY291bnQsXG4gICAgICAgIHNlcmllc1xuICAgICAgfSkpXG4gICAgICAuZmlsdGVyKChkKSA9PiBkLmNvdW50ID4gMCk7XG5cbiAgICAvLyBDbG9zZSB0aGUgc3RlcHBlZCBvdXRsaW5lIGF0IGJvdGggbGltaXRzLiBPbiB0aGUgbG9nYXJpdGhtaWMgeS1heGlzLFxuICAgIC8vIGNvdW50ID0gMSBpcyB0aGUgdmlzaWJsZSBiYXNlbGluZSB1c2VkIGZvciBhbiBlbXB0eSBib3VuZGFyeSBiaW4uXG4gICAgY29uc3QgZmlyc3QgPSBjb3VudHMuZmluZEluZGV4KChjb3VudCkgPT4gY291bnQgPiAwKTtcbiAgICBjb25zdCBsYXN0ID0gY291bnRzLmZpbmRMYXN0SW5kZXgoKGNvdW50KSA9PiBjb3VudCA+IDApO1xuICAgIGNvbnN0IG91dGxpbmUgPSBmaXJzdCA8IDBcbiAgICAgID8gW11cbiAgICAgIDogW1xuICAgICAgICAgIHsgeDogZG9wcGxlcl9iaW5zW2ZpcnN0XSwgY291bnQ6IDEsIHNlcmllcyB9LFxuICAgICAgICAgIC4uLmNvdW50cy5zbGljZShmaXJzdCwgbGFzdCArIDEpLm1hcCgoY291bnQsIG9mZnNldCkgPT4gKHtcbiAgICAgICAgICAgIHg6IGRvcHBsZXJfYmluc1tmaXJzdCArIG9mZnNldF0sXG4gICAgICAgICAgICBjb3VudDogTWF0aC5tYXgoMSwgY291bnQpLFxuICAgICAgICAgICAgc2VyaWVzXG4gICAgICAgICAgfSkpLFxuICAgICAgICAgIHsgeDogZG9wcGxlcl9iaW5zW2xhc3QgKyAxXSwgY291bnQ6IDEsIHNlcmllcyB9XG4gICAgICAgIF07XG5cbiAgICByZXR1cm4geyBiYXJzLCBvdXRsaW5lIH07XG4gIH1cblxuICBjb25zdCBvYnNlcnZlZEZsdXhlcyA9IGRvcHBsZXJfcmVzdF9mbHV4ZXMubWFwKFxuICAgIChmbHV4KSA9PiBmbHV4ICogZG9wcGxlcl90cmFuc2Zvcm0uZmx1eE11bHRpcGxpZXJcbiAgKTtcblxuICBjb25zdCByZXN0ID0gaGlzdG9ncmFtKGRvcHBsZXJfcmVzdF9mbHV4ZXMsIFwiUmVzdCBmcmFtZVwiKTtcbiAgY29uc3Qgb2JzZXJ2ZWQgPSBoaXN0b2dyYW0ob2JzZXJ2ZWRGbHV4ZXMsIFwiT2JzZXJ2ZXIgZnJhbWVcIik7XG5cbiAgcmV0dXJuIHtcbiAgICBiYXJzOiBbLi4ucmVzdC5iYXJzLCAuLi5vYnNlcnZlZC5iYXJzXSxcbiAgICBvdXRsaW5lczogWy4uLnJlc3Qub3V0bGluZSwgLi4ub2JzZXJ2ZWQub3V0bGluZV1cbiAgfTtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlBsb3QucGxvdCh7XG4gIHdpZHRoOiA1MDAsXG4gIGhlaWdodDogMzkwLFxuICBtYXJnaW5MZWZ0OiA2MixcbiAgbWFyZ2luUmlnaHQ6IDE4LFxuICBtYXJnaW5Ub3A6IDM0LFxuICBtYXJnaW5Cb3R0b206IDU0LFxuICBzdHlsZToge1xuICAgIGZvbnRGYW1pbHk6IFwiRmlyYSBTYW5zLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWZcIixcbiAgICBmb250U2l6ZTogXCIxM3B4XCJcbiAgfSxcbiAgY29sb3I6IHtcbiAgICBkb21haW46IFtcIlJlc3QgZnJhbWVcIiwgXCJPYnNlcnZlciBmcmFtZVwiXSxcbiAgICByYW5nZTogW1wiIzUwYTk2ZFwiLCBcIiNlZjdjM2JcIl0sXG4gICAgbGVnZW5kOiB0cnVlXG4gIH0sXG4gIHg6IHtcbiAgICB0eXBlOiBcImxvZ1wiLFxuICAgIGRvbWFpbjogW2RvcHBsZXJfY29uZmlnLm1pbkZsdXgsIGRvcHBsZXJfY29uZmlnLnBsb3RNYXhGbHV4XSxcbiAgICB0aWNrczogWzEsIDEwLCAxMDBdLFxuICAgIGxhYmVsOiBcIkZsdXggZGVuc2l0eVwiXG4gIH0sXG4gIHk6IHtcbiAgICB0eXBlOiBcImxvZ1wiLFxuICAgIGRvbWFpbjogWzEsIDEyMDAwXSxcbiAgICB0aWNrczogWzEsIDEwLCAxMDAsIDEwMDAsIDEwMDAwXSxcbiAgICBsYWJlbDogXCJDb3VudCBpbiBlYWNoIGZsdXggYmluXCJcbiAgfSxcbiAgbWFya3M6IFtcbiAgICBQbG90LnJlY3RZKGRvcHBsZXJfaGlzdG9ncmFtcy5iYXJzLCB7XG4gICAgICB4MTogXCJ4MFwiLFxuICAgICAgeDI6IFwieDFcIixcbiAgICAgIHkxOiAxLFxuICAgICAgeTI6IFwiY291bnRcIixcbiAgICAgIGZpbGw6IFwic2VyaWVzXCIsXG4gICAgICBmaWxsT3BhY2l0eTogMC4yMixcbiAgICAgIGluc2V0OiAwXG4gICAgfSksXG4gICAgUGxvdC5saW5lKGRvcHBsZXJfaGlzdG9ncmFtcy5vdXRsaW5lcywge1xuICAgICAgeDogXCJ4XCIsXG4gICAgICB5OiBcImNvdW50XCIsXG4gICAgICB6OiBcInNlcmllc1wiLFxuICAgICAgc3Ryb2tlOiBcInNlcmllc1wiLFxuICAgICAgY3VydmU6IFwic3RlcC1hZnRlclwiLFxuICAgICAgc3Ryb2tlV2lkdGg6IDIuOFxuICAgIH0pLFxuICAgIFBsb3QucnVsZVgoW2RvcHBsZXJfY29uZmlnLmZsdXhDdXRdLCB7XG4gICAgICBzdHJva2U6IFwiIzIyMlwiLFxuICAgICAgc3Ryb2tlRGFzaGFycmF5OiBcIjUsNFwiLFxuICAgICAgc3Ryb2tlT3BhY2l0eTogMC42NVxuICAgIH0pLFxuICAgIFBsb3QucnVsZVkoWzFdLCB7XG4gICAgICBzdHJva2U6IFwiIzAwMFwiLFxuICAgICAgc3Ryb2tlV2lkdGg6IDIuOFxuICAgIH0pLFxuICAgIFBsb3QucnVsZVgoW2RvcHBsZXJfY29uZmlnLm1pbkZsdXhdLCB7XG4gICAgICBzdHJva2U6IFwiIzAwMFwiLFxuICAgICAgc3Ryb2tlV2lkdGg6IDIuOFxuICAgIH0pLFxuICAgIFBsb3QudGV4dChcbiAgICAgIFt7IHg6IGRvcHBsZXJfY29uZmlnLmZsdXhDdXQsIGxhYmVsOiBcIkZsdXggY3V0XCIgfV0sXG4gICAgICB7XG4gICAgICAgIHg6IFwieFwiLFxuICAgICAgICB0ZXh0OiBcImxhYmVsXCIsXG4gICAgICAgIGZyYW1lQW5jaG9yOiBcInRvcFwiLFxuICAgICAgICBkeTogOCxcbiAgICAgICAgZHg6IDUsXG4gICAgICAgIHRleHRBbmNob3I6IFwic3RhcnRcIixcbiAgICAgICAgZmlsbDogXCIjMjIyXCJcbiAgICAgIH1cbiAgICApXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTciLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgZG9wcGxlcl9iZXRhID0ge1xuICBjb25zdCByb290ID0gaHRtbGA8bGFiZWwgY2xhc3M9XCJkb3BwbGVyLWJldGEtY29udHJvbFwiPlxuICAgIDxzcGFuPlNwZWVkIChjKTwvc3Bhbj5cbiAgICA8aW5wdXQgY2xhc3M9XCJkb3BwbGVyLWJldGEtc2xpZGVyXCIgdHlwZT1cInJhbmdlXCIgbWluPVwiMFwiIG1heD1cIjAuM1wiIHN0ZXA9XCIwLjAwNVwiIHZhbHVlPVwiMFwiPlxuICAgIDxvdXRwdXQ+PC9vdXRwdXQ+XG4gIDwvbGFiZWw+YDtcbiAgY29uc3QgaW5wdXQgPSByb290LnF1ZXJ5U2VsZWN0b3IoXCJpbnB1dFwiKTtcbiAgY29uc3Qgb3V0cHV0ID0gcm9vdC5xdWVyeVNlbGVjdG9yKFwib3V0cHV0XCIpO1xuXG4gIHJvb3QudmFsdWUgPSBpbnB1dC52YWx1ZUFzTnVtYmVyO1xuICBvdXRwdXQudGV4dENvbnRlbnQgPSByb290LnZhbHVlLnRvRml4ZWQoMyk7XG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoXCJpbnB1dFwiLCAoKSA9PiB7XG4gICAgcm9vdC52YWx1ZSA9IGlucHV0LnZhbHVlQXNOdW1iZXI7XG4gICAgb3V0cHV0LnRleHRDb250ZW50ID0gcm9vdC52YWx1ZS50b0ZpeGVkKDMpO1xuICAgIHJvb3QuZGlzcGF0Y2hFdmVudChuZXcgRXZlbnQoXCJpbnB1dFwiLCB7IGJ1YmJsZXM6IHRydWUgfSkpO1xuICB9KTtcblxuICByZXR1cm4gcm9vdDtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtOCIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImVkZGluZ3Rvbl9iaW5zID0ge1xuICBjb25zdCB4TWluID0gMTtcbiAgY29uc3QgeE1heCA9IDMwO1xuICBjb25zdCBuQmlucyA9IDgwO1xuICBjb25zdCBsb2dNaW4gPSBNYXRoLmxvZzEwKHhNaW4pO1xuICBjb25zdCBsb2dNYXggPSBNYXRoLmxvZzEwKHhNYXgpO1xuICBjb25zdCBzdGVwID0gKGxvZ01heCAtIGxvZ01pbikgLyBuQmlucztcblxuICByZXR1cm4gQXJyYXkuZnJvbSh7IGxlbmd0aDogbkJpbnMgKyAxIH0sIChfLCBpKSA9PlxuICAgIE1hdGgucG93KDEwLCBsb2dNaW4gKyBpICogc3RlcClcbiAgKTtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtOSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiBlZGRpbmd0b25fY3V0X2luZGV4ID0ge1xuICBjb25zdCBtaW5JbmRleCA9IGQzLmJpc2VjdExlZnQoZWRkaW5ndG9uX2JpbnMsIDEuMik7XG4gIGNvbnN0IG1heEluZGV4ID0gZDMuYmlzZWN0UmlnaHQoZWRkaW5ndG9uX2JpbnMsIDQpIC0gMTtcbiAgY29uc3QgdmFsdWUgPSBkMy5iaXNlY3RMZWZ0KGVkZGluZ3Rvbl9iaW5zLCAyKTtcbiAgY29uc3Qgcm9vdCA9IGh0bWxgPGxhYmVsIHN0eWxlPVwiZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgZ2FwOiAwLjU1ZW07XCI+XG4gICAgPHNwYW4+Rmx1eCBjdXQ8L3NwYW4+XG4gICAgPGlucHV0IHR5cGU9XCJyYW5nZVwiIG1pbj0ke21pbkluZGV4fSBtYXg9JHttYXhJbmRleH0gc3RlcD1cIjFcIiB2YWx1ZT0ke3ZhbHVlfT5cbiAgICA8c3BhbiBzdHlsZT1cImZvbnQtdmFyaWFudC1udW1lcmljOiB0YWJ1bGFyLW51bXM7IG1pbi13aWR0aDogMi44ZW07XCI+PC9zcGFuPlxuICA8L2xhYmVsPmA7XG4gIGNvbnN0IGlucHV0ID0gcm9vdC5xdWVyeVNlbGVjdG9yKFwiaW5wdXRcIik7XG4gIGNvbnN0IG91dHB1dCA9IHJvb3QucXVlcnlTZWxlY3RvcihcInNwYW46bGFzdC1jaGlsZFwiKTtcblxuICByb290LnZhbHVlID0gaW5wdXQudmFsdWVBc051bWJlcjtcbiAgb3V0cHV0LnRleHRDb250ZW50ID0gZWRkaW5ndG9uX2JpbnNbcm9vdC52YWx1ZV0udG9GaXhlZCgyKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihcImlucHV0XCIsICgpID0+IHtcbiAgICByb290LnZhbHVlID0gaW5wdXQudmFsdWVBc051bWJlcjtcbiAgICBvdXRwdXQudGV4dENvbnRlbnQgPSBlZGRpbmd0b25fYmluc1tyb290LnZhbHVlXS50b0ZpeGVkKDIpO1xuICAgIHJvb3QuZGlzcGF0Y2hFdmVudChuZXcgRXZlbnQoXCJpbnB1dFwiLCB7IGJ1YmJsZXM6IHRydWUgfSkpO1xuICB9KTtcblxuICByZXR1cm4gcm9vdDtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMTAiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJlZGRpbmd0b25fY3V0ID0gZWRkaW5ndG9uX2JpbnNbZWRkaW5ndG9uX2N1dF9pbmRleF1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMTEiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgZWRkaW5ndG9uX25vaXNlID0ge1xuICBjb25zdCByb290ID0gaHRtbGA8bGFiZWwgc3R5bGU9XCJkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogY2VudGVyOyBnYXA6IDAuNTVlbTtcIj5cbiAgICA8c3Bhbj5Ob2lzZTwvc3Bhbj5cbiAgICA8aW5wdXQgY2xhc3M9XCJlZGRpbmd0b24tbm9pc2Utc2xpZGVyXCIgdHlwZT1cInJhbmdlXCIgbWluPVwiMFwiIG1heD1cIjEuNVwiIHN0ZXA9XCIwLjAyNVwiIHZhbHVlPVwiMC4wXCI+XG4gICAgPHNwYW4gc3R5bGU9XCJmb250LXZhcmlhbnQtbnVtZXJpYzogdGFidWxhci1udW1zOyBtaW4td2lkdGg6IDIuOGVtO1wiPjwvc3Bhbj5cbiAgPC9sYWJlbD5gO1xuICBjb25zdCBpbnB1dCA9IHJvb3QucXVlcnlTZWxlY3RvcihcImlucHV0XCIpO1xuICBjb25zdCBvdXRwdXQgPSByb290LnF1ZXJ5U2VsZWN0b3IoXCJzcGFuOmxhc3QtY2hpbGRcIik7XG5cbiAgcm9vdC52YWx1ZSA9IGlucHV0LnZhbHVlQXNOdW1iZXI7XG4gIG91dHB1dC50ZXh0Q29udGVudCA9IHJvb3QudmFsdWUudG9GaXhlZCgyKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihcImlucHV0XCIsICgpID0+IHtcbiAgICByb290LnZhbHVlID0gaW5wdXQudmFsdWVBc051bWJlcjtcbiAgICBvdXRwdXQudGV4dENvbnRlbnQgPSByb290LnZhbHVlLnRvRml4ZWQoMik7XG4gICAgcm9vdC5kaXNwYXRjaEV2ZW50KG5ldyBFdmVudChcImlucHV0XCIsIHsgYnViYmxlczogdHJ1ZSB9KSk7XG4gIH0pO1xuXG4gIHJldHVybiByb290O1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0xMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImVkZGluZ3Rvbl9zYW1wbGVzID0ge1xuICBjb25zdCBuID0gNjAwMDA7XG4gIGNvbnN0IHggPSAzO1xuICBjb25zdCBzTG93ID0gMTtcbiAgY29uc3Qgcm5nID0gZDMucmFuZG9tTGNnKDQyKTtcblxuICByZXR1cm4gQXJyYXkuZnJvbSh7IGxlbmd0aDogbiB9LCAoKSA9PiB7XG4gICAgY29uc3QgdHJ1ZUZsdXggPSBzTG93ICogTWF0aC5wb3coMSAtIHJuZygpLCAtMSAvIHgpO1xuICAgIHJldHVybiB7IHRydWVGbHV4IH07XG4gIH0pO1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0xMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImVkZGluZ3Rvbl9oaXN0b2dyYW0gPSB7XG4gIGNvbnN0IHhNaW4gPSAxO1xuICBjb25zdCB4TWF4ID0gMzA7XG4gIGNvbnN0IGJpbnMgPSBlZGRpbmd0b25fYmlucztcbiAgY29uc3QgbkJpbnMgPSBiaW5zLmxlbmd0aCAtIDE7XG5cbiAgZnVuY3Rpb24gaGlzdG9ncmFtKHZhbHVlcywgc2VyaWVzLCBjb2xvciwgb3BhY2l0eSkge1xuICAgIGNvbnN0IGNvdW50cyA9IEFycmF5KG5CaW5zKS5maWxsKDApO1xuICAgIGZvciAoY29uc3QgdmFsdWUgb2YgdmFsdWVzKSB7XG4gICAgICBpZiAodmFsdWUgPCB4TWluIHx8IHZhbHVlID49IHhNYXgpIGNvbnRpbnVlO1xuICAgICAgY29uc3QgaSA9IE1hdGgubWluKFxuICAgICAgICBuQmlucyAtIDEsXG4gICAgICAgIGQzLmJpc2VjdFJpZ2h0KGJpbnMsIHZhbHVlKSAtIDFcbiAgICAgICk7XG4gICAgICBjb3VudHNbaV0gKz0gMTtcbiAgICB9XG4gICAgcmV0dXJuIGNvdW50cy5tYXAoKGNvdW50LCBpKSA9PiAoe1xuICAgICAgeDA6IGJpbnNbaV0sXG4gICAgICB4MTogYmluc1tpICsgMV0sXG4gICAgICBjb3VudCxcbiAgICAgIHNlcmllcyxcbiAgICAgIGNvbG9yLFxuICAgICAgb3BhY2l0eVxuICAgIH0pKTtcbiAgfVxuXG4gIGNvbnN0IGZsdXhFcnJvciA9XG4gICAgZWRkaW5ndG9uX25vaXNlID09PSAwXG4gICAgICA/ICgpID0+IDBcbiAgICAgIDogZDMucmFuZG9tTm9ybWFsLnNvdXJjZShkMy5yYW5kb21MY2coMzE0KSkoMCwgZWRkaW5ndG9uX25vaXNlKTtcbiAgY29uc3QgbWVhc3VyZWRTb3VyY2VzID0gZWRkaW5ndG9uX3NhbXBsZXMubWFwKChkKSA9PiB7XG4gICAgY29uc3Qgc2FtcGxlZEZsdXggPSBkLnRydWVGbHV4ICsgZmx1eEVycm9yKCk7XG4gICAgcmV0dXJuIHtcbiAgICAgIHRydWVGbHV4OiBkLnRydWVGbHV4LFxuICAgICAgc2FtcGxlZEZsdXgsXG4gICAgICBpbmNsdWRlZDogc2FtcGxlZEZsdXggPiBlZGRpbmd0b25fY3V0XG4gICAgfTtcbiAgfSk7XG4gIGNvbnN0IGluY2x1ZGVkU291cmNlcyA9IG1lYXN1cmVkU291cmNlcy5maWx0ZXIoKGQpID0+IGQuaW5jbHVkZWQpO1xuICBjb25zdCB0cnVlRmx1eCA9IGVkZGluZ3Rvbl9zYW1wbGVzLm1hcCgoZCkgPT4gZC50cnVlRmx1eCk7XG4gIGNvbnN0IHNhbXBsZWRGbHV4ID0gaW5jbHVkZWRTb3VyY2VzLm1hcCgoZCkgPT4gZC5zYW1wbGVkRmx1eCk7XG5cbiAgcmV0dXJuIFtcbiAgICAuLi5oaXN0b2dyYW0odHJ1ZUZsdXgsIFwiVHJ1ZSBkaXN0cmlidXRpb25cIiwgXCIjNTk4YWVhXCIsIDAuMyksXG4gICAgLi4uaGlzdG9ncmFtKHNhbXBsZWRGbHV4LCBcIlNhbXBsZWQgYWJvdmUgY3V0XCIsIFwiI2ZmNTgzZVwiLCAwLjQpXG4gIF07XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTE0IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiUGxvdC5wbG90KHtcbiAgd2lkdGg6IDcyMCxcbiAgaGVpZ2h0OiA0MTAsXG4gIG1hcmdpbkxlZnQ6IDcyLFxuICBtYXJnaW5SaWdodDogMjQsXG4gIG1hcmdpblRvcDogMzQsXG4gIG1hcmdpbkJvdHRvbTogNTgsXG4gIHN0eWxlOiB7XG4gICAgZm9udEZhbWlseTogXCJGaXJhIFNhbnMsIEhlbHZldGljYSwgc2Fucy1zZXJpZlwiLFxuICAgIGZvbnRTaXplOiBcIjE1cHhcIlxuICB9LFxuICB4OiB7XG4gICAgdHlwZTogXCJsb2dcIixcbiAgICBkb21haW46IFsxLCAzMF0sXG4gICAgdGlja3M6IFsxLCBlZGRpbmd0b25fY3V0LCAxMCwgMjBdLFxuICAgIHRpY2tGb3JtYXQ6IChkKSA9PlxuICAgICAgZCA9PT0gZWRkaW5ndG9uX2N1dCA/IGQudG9GaXhlZCgyKSA6IGQzLmZvcm1hdChcIn5nXCIpKGQpLFxuICAgIGxhYmVsOiBcIkZsdXggZGVuc2l0eSAoYnJpZ2h0bmVzcylcIlxuICB9LFxuICB5OiB7XG4gICAgZ3JpZDogZmFsc2UsXG4gICAgbGFiZWw6IFwiQ291bnQgaW4gZWFjaCBmbHV4IGJpblwiXG4gIH0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5yZWN0WShlZGRpbmd0b25faGlzdG9ncmFtLCB7XG4gICAgICB4MTogXCJ4MFwiLFxuICAgICAgeDI6IFwieDFcIixcbiAgICAgIHkxOiAwLFxuICAgICAgeTI6IFwiY291bnRcIixcbiAgICAgIGZpbGw6IFwiY29sb3JcIixcbiAgICAgIGZpbGxPcGFjaXR5OiBcIm9wYWNpdHlcIixcbiAgICAgIGluc2V0OiAwXG4gICAgfSksXG4gICAgUGxvdC5saW5lKGVkZGluZ3Rvbl9oaXN0b2dyYW0sIHtcbiAgICAgIHg6IFwieDBcIixcbiAgICAgIHk6IFwiY291bnRcIixcbiAgICAgIHo6IFwic2VyaWVzXCIsXG4gICAgICBjdXJ2ZTogXCJzdGVwLWFmdGVyXCIsXG4gICAgICBzdHJva2U6IFwiY29sb3JcIixcbiAgICAgIHN0cm9rZVdpZHRoOiAzLFxuICAgICAgc3Ryb2tlT3BhY2l0eTogMC45NVxuICAgIH0pLFxuICAgIFBsb3QucnVsZVgoW2VkZGluZ3Rvbl9jdXRdLCB7XG4gICAgICBzdHJva2U6IFwiIzIyMlwiLFxuICAgICAgc3Ryb2tlRGFzaGFycmF5OiBcIjUsNFwiLFxuICAgICAgc3Ryb2tlT3BhY2l0eTogMC41NVxuICAgIH0pLFxuICAgIFBsb3QucnVsZVkoWzBdLCB7XG4gICAgICBzdHJva2U6IFwiIzAwMFwiLFxuICAgICAgc3Ryb2tlV2lkdGg6IDIuOFxuICAgIH0pLFxuICAgIFBsb3QucnVsZVgoWzFdLCB7XG4gICAgICBzdHJva2U6IFwiIzAwMFwiLFxuICAgICAgc3Ryb2tlV2lkdGg6IDIuOFxuICAgIH0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2RvcHBsZXJfYmV0YScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdlZGRpbmd0b25fY3V0X2luZGV4JykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2VkZGluZ3Rvbl9ub2lzZScpIn1dfQ==
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>window.titleFooterConfig = {logoHeight: "7rem", institutionLogo: "figures/usyd-logo.svg", eventImage: "figures/logo-ml4astro_crop.png", eventTitle: "ML4ASTRO3", supervisors: ["Geraint Lewis", "Tara Murphy"]};</script>
+    
+
+<script src="slides_files/libs/quarto-contrib/metropolis-beamer-1.0.0/add_header.js" defer="true"></script>
+</body></html>

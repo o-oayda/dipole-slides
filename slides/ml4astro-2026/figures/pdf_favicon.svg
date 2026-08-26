@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-label="PDF">
+  <path d="M3 1.5h6.2L13 5.3v9.2H3z" fill="none" stroke="#eec35e" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M9.2 1.5v3.8H13" fill="none" stroke="#eec35e" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M5 10.5h6M5 12.3h4" fill="none" stroke="#eec35e" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
