@@ -6,7 +6,7 @@
 <script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting-f8b45d2e6062d3f0773618a8522056e4.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Oliver Oayda">
@@ -99,7 +99,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-06a220121f5c35b7f602702157a15f9e.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-ab1f410718705a8b90785ff2817e8bd2.css">
   <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -1085,7 +1085,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
   <ul>
     <li>Don't know \(\alertmath{\mathcal{L}}\)? No problem!</li>
     <li class="fragment" data-fragment-index="3">
-      Take data-generating process \(f_M: \mathbf{\theta} \to \mathbf{x}\).
+      Take data-generating process \(f_M: \boldsymbol{\theta} \to \boldsymbol{x}\).
     </li>
     <li class="fragment" data-fragment-index="4">
       Use a neural network to learn \(\alertmath{\mathcal{L}}\).
@@ -1102,7 +1102,7 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <ul>
   <li class="fragment" data-fragment-index="0">
     <strong>Goal:</strong> describe the <span class="math inline">\(d\)</span>-dimensional base distribution
-    <a href=".alert">\({\mathcal{L}(\mathbf{x}\mid\boldsymbol{\theta})}\)</a>.
+    <a href=".alert">\({\mathcal{L}(\boldsymbol{x}\mid\boldsymbol{\theta})}\)</a>.
   </li>
   <li class="fragment" data-fragment-index="1">
     We use a series of <strong>Masked Autoregressive Flows</strong> (MAFs).
@@ -1123,6 +1123,56 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 <div class="fragment fade-in" data-fragment-index="4">
 <p><img data-src="figures/flow_samples_demo.svg" style="width:100.0%"></p>
 </div>
+</div>
+</section>
+<section id="the-nuts-bolts" class="slide level2 nuts-bolts-slide">
+<h2>The Nuts &amp; Bolts</h2>
+<div class="algorithm-card">
+  <div class="algorithm-title">Algorithm: Sequential Neural Likelihood Estimator (SNLE)</div>
+  <div class="algorithm-meta">
+    <div class="algorithm-io">
+      <div><strong>Input:</strong> data \(\boldsymbol{x}_0\), <span class="algorithm-prior">prior \( \pi\)</span>, simulator \(f_M\)</div>
+      <div><strong>Output:</strong> <span class="algorithm-posterior">posterior \( \mathcal{P}\)</span>, <span class="algorithm-evidence">Bayesian evidence \( \mathcal{Z}\)</span></div>
+    </div>
+    <div class="algorithm-bayes">
+      \[
+      \definecolor{posteriorblue}{RGB}{0,181,235}
+      \definecolor{evidencepurple}{RGB}{128,0,255}
+      \definecolor{priorgreen}{RGB}{64,128,90}
+      \definecolor{alertcolor}{RGB}{235,129,27}
+      {\color{posteriorblue}\mathcal{P}(\boldsymbol{\theta}\mid\boldsymbol{x}_0)}
+      =
+      \frac{
+        {\color{alertcolor}\mathcal{L}(\boldsymbol{x}_0\mid\boldsymbol{\theta})}
+        {\color{priorgreen}\pi(\boldsymbol{\theta})}
+      }{
+        {\color{evidencepurple}\mathcal{Z}(\boldsymbol{x}_0)}
+      }
+      \]
+    </div>
+  </div>
+
+  <div class="algorithm-rule"></div>
+
+  <div class="algorithm-body">
+    <div class="algorithm-steps">
+      <div class="fragment algorithm-row algorithm-init" data-fragment-index="0">Let proposal \(=\) <span class="algorithm-prior">prior</span></div>
+      <div class="fragment algorithm-row algorithm-round-heading" data-fragment-index="1"><strong>for</strong> each training round:</div>
+      <div class="fragment algorithm-row algorithm-guide-1 algorithm-sim-heading algorithm-round-step" data-fragment-index="2"><strong>for</strong> each simulation this round:</div>
+      <div class="fragment algorithm-row algorithm-guide-1 algorithm-guide-2 algorithm-round-step algorithm-sim-step" data-fragment-index="3">sample \(\boldsymbol{\theta} \hookleftarrow\) proposal</div>
+      <div class="fragment algorithm-row algorithm-guide-1 algorithm-guide-2 algorithm-round-step algorithm-sim-step" data-fragment-index="4">simulate \(\boldsymbol{x} = f_M (\boldsymbol{\theta})\)</div>
+      <div class="fragment algorithm-row algorithm-guide-1 algorithm-guide-2 algorithm-round-step algorithm-sim-step" data-fragment-index="5">append the \( (\boldsymbol{\theta}, \boldsymbol{x}) \) pair</div>
+      <div class="fragment algorithm-row algorithm-guide-1 algorithm-round-step" data-fragment-index="6">Learn surrogate <span class="algorithm-likelihood">likelihood \( \mathcal{L} \)</span> using all pairs</div>
+      <div class="fragment algorithm-row algorithm-guide-1 algorithm-round-step" data-fragment-index="7">Compute <span class="algorithm-posterior">posterior \( \mathcal{P} \)</span> and <span class="algorithm-evidence">evidence \(\mathcal{Z} \)</span></div>
+      <div class="fragment algorithm-row algorithm-guide-1 algorithm-round-step" data-fragment-index="8">Set proposal \(=\) <span class="algorithm-posterior">posterior</span></div>
+      <div class="fragment algorithm-row" data-fragment-index="9"><strong>return</strong> final <span class="algorithm-posterior">posterior</span> &amp; <span class="algorithm-evidence">evidence</span> estimate</div>
+    </div>
+
+    <div class="algorithm-figure-stage" aria-hidden="true">
+      <img class="fragment fade-in-then-out" data-fragment-index="7" src="figures/lnZ_evolution.svg" alt="">
+      <img class="fragment fade-in algorithm-corner-figure" data-fragment-index="8" src="figures/corner_only.svg" alt="">
+    </div>
+  </div>
 </div>
 </section></section>
 <section>
@@ -1232,6 +1282,11 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </div>
 </div>
 </div>
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center">
+<h1>Appendix</h1>
+
 </section>
 <section id="validation" class="slide level2">
 <h2>Validation</h2>
@@ -1241,6 +1296,18 @@ N_{i} = \overline{N} (1 + \alertmath{\mathcal{D}} \cos \theta_i )
 </div><div class="column center-column" style="width:50%;">
 <p><img data-src="figures/evidence_evolution.svg" style="width:100.0%"></p>
 </div></div>
+</section>
+<section id="consistency-check-bayesian-evidence" class="slide level2">
+<h2>Consistency Check: Bayesian Evidence</h2>
+<ul>
+<li>SBI likelihood <span class="math inline">\(\approx\)</span> analytic likelihood</li>
+<li><span class="math inline">\(N_{\mathrm{side}} = 4 \Longleftrightarrow N_{\mathrm{side}} = 64\)</span></li>
+</ul>
+
+<img data-src="figures/ln_B_scatter.svg" style="width:100.0%" class="r-stretch"></section>
+<section id="fiducial-model-snle-vs.-snpe" class="slide level2">
+<h2>Fiducial Model: SNLE vs.&nbsp;SNPE</h2>
+<p><img data-src="figures/corner_npe_vs_nle.svg" style="width:50.0%"></p>
 
 <div class="reveal-header" data-header-scale="auto">
 <div class="header-title">
