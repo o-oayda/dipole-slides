@@ -1,0 +1,219 @@
+```{ojs}
+// Fixed simulation inputs. Keeping these together makes the assumed physics
+// and the plotted population straightforward to audit.
+doppler_config = ({
+  nSources: 60000,
+  randomSeed: 73,
+  differentialCountIndex: 2.5, // dN/dS_nu proportional to S_nu^(-2.5)
+  minFlux: 1,
+  maxFlux: 100,
+  plotMaxFlux: 200,
+  nBins: 52,
+  spectralIndex: 1,
+  cosTheta: 1,                 // small patch in the forward hemisphere
+  fluxCut: 5
+})
+```
+
+```{ojs}
+// Inverse-CDF samples from the truncated differential power law
+// p(S_nu) proportional to S_nu^(-p), for S_min <= S_nu <= S_max.
+doppler_rest_fluxes = {
+  const p = doppler_config.differentialCountIndex;
+  const exponent = 1 - p;
+  const low = Math.pow(doppler_config.minFlux, exponent);
+  const high = Math.pow(doppler_config.maxFlux, exponent);
+  const rng = d3.randomLcg(doppler_config.randomSeed);
+
+  return Array.from({ length: doppler_config.nSources }, () =>
+    Math.pow(low + rng() * (high - low), 1 / exponent)
+  );
+}
+```
+
+```{ojs}
+// Observer-frame transformation requested for the forward patch:
+//   gamma = 1 / sqrt(1 - beta^2)
+//   delta = gamma (1 + beta cos(theta))
+//   S'_nu = S_nu delta^(1 + alpha)
+doppler_transform = {
+  const beta = doppler_beta;
+  const gamma = 1 / Math.sqrt(1 - beta * beta);
+  const delta = gamma * (1 + beta * doppler_config.cosTheta);
+  const fluxMultiplier = Math.pow(
+    delta,
+    1 + doppler_config.spectralIndex
+  );
+
+  return { beta, gamma, delta, fluxMultiplier };
+}
+```
+
+```{ojs}
+doppler_bins = {
+  const logMin = Math.log10(doppler_config.minFlux);
+  const logMax = Math.log10(doppler_config.plotMaxFlux);
+  const step = (logMax - logMin) / doppler_config.nBins;
+
+  return Array.from({ length: doppler_config.nBins + 1 }, (_, i) =>
+    Math.pow(10, logMin + i * step)
+  );
+}
+```
+
+```{ojs}
+doppler_histograms = {
+  function histogram(values, series) {
+    const counts = Array(doppler_config.nBins).fill(0);
+    for (const value of values) {
+      if (
+        value < doppler_config.minFlux ||
+        value >= doppler_config.plotMaxFlux
+      ) continue;
+
+      const index = Math.min(
+        doppler_config.nBins - 1,
+        d3.bisectRight(doppler_bins, value) - 1
+      );
+      counts[index] += 1;
+    }
+
+    const bars = counts
+      .map((count, i) => ({
+        x0: doppler_bins[i],
+        x1: doppler_bins[i + 1],
+        count,
+        series
+      }))
+      .filter((d) => d.count > 0);
+
+    // Close the stepped outline at both limits. On the logarithmic y-axis,
+    // count = 1 is the visible baseline used for an empty boundary bin.
+    const first = counts.findIndex((count) => count > 0);
+    const last = counts.findLastIndex((count) => count > 0);
+    const outline = first < 0
+      ? []
+      : [
+          { x: doppler_bins[first], count: 1, series },
+          ...counts.slice(first, last + 1).map((count, offset) => ({
+            x: doppler_bins[first + offset],
+            count: Math.max(1, count),
+            series
+          })),
+          { x: doppler_bins[last + 1], count: 1, series }
+        ];
+
+    return { bars, outline };
+  }
+
+  const observedFluxes = doppler_rest_fluxes.map(
+    (flux) => flux * doppler_transform.fluxMultiplier
+  );
+
+  const rest = histogram(doppler_rest_fluxes, "Rest frame");
+  const observed = histogram(observedFluxes, "Observer frame");
+
+  return {
+    bars: [...rest.bars, ...observed.bars],
+    outlines: [...rest.outline, ...observed.outline]
+  };
+}
+```
+
+```{ojs}
+Plot.plot({
+  width: 500,
+  height: 390,
+  marginLeft: 62,
+  marginRight: 18,
+  marginTop: 34,
+  marginBottom: 54,
+  style: {
+    fontFamily: "Fira Sans, Helvetica, sans-serif",
+    fontSize: "13px"
+  },
+  color: {
+    domain: ["Rest frame", "Observer frame"],
+    range: ["#50a96d", "#ef7c3b"],
+    legend: true
+  },
+  x: {
+    type: "log",
+    domain: [doppler_config.minFlux, doppler_config.plotMaxFlux],
+    ticks: [1, 10, 100],
+    label: "Flux density"
+  },
+  y: {
+    type: "log",
+    domain: [1, 12000],
+    ticks: [1, 10, 100, 1000, 10000],
+    label: "Count in each flux bin"
+  },
+  marks: [
+    Plot.rectY(doppler_histograms.bars, {
+      x1: "x0",
+      x2: "x1",
+      y1: 1,
+      y2: "count",
+      fill: "series",
+      fillOpacity: 0.22,
+      inset: 0
+    }),
+    Plot.line(doppler_histograms.outlines, {
+      x: "x",
+      y: "count",
+      z: "series",
+      stroke: "series",
+      curve: "step-after",
+      strokeWidth: 2.8
+    }),
+    Plot.ruleX([doppler_config.fluxCut], {
+      stroke: "#222",
+      strokeDasharray: "5,4",
+      strokeOpacity: 0.65
+    }),
+    Plot.ruleY([1], {
+      stroke: "#000",
+      strokeWidth: 2.8
+    }),
+    Plot.ruleX([doppler_config.minFlux], {
+      stroke: "#000",
+      strokeWidth: 2.8
+    }),
+    Plot.text(
+      [{ x: doppler_config.fluxCut, label: "Flux cut" }],
+      {
+        x: "x",
+        text: "label",
+        frameAnchor: "top",
+        dy: 8,
+        dx: 5,
+        textAnchor: "start",
+        fill: "#222"
+      }
+    )
+  ]
+})
+```
+
+```{ojs}
+viewof doppler_beta = {
+  const root = html`<label class="doppler-beta-control">
+    <span>Speed (c)</span>
+    <input class="doppler-beta-slider" type="range" min="0" max="0.3" step="0.005" value="0">
+    <output></output>
+  </label>`;
+  const input = root.querySelector("input");
+  const output = root.querySelector("output");
+
+  root.value = input.valueAsNumber;
+  output.textContent = root.value.toFixed(3);
+  input.addEventListener("input", () => {
+    root.value = input.valueAsNumber;
+    output.textContent = root.value.toFixed(3);
+    root.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+
+  return root;
+}
+```
