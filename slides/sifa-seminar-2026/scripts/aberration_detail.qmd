@@ -1,0 +1,5 @@
+```{ojs}
+viewof aberration_detail_beta = aberration_create({
+  neutralColourTrigger: ".equation-split-trigger"
+})
+```

@@ -1,0 +1,24 @@
+```{=html}
+<div class="sed-schematic">
+<svg class="sed-artwork" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 390" width="500" role="img" aria-labelledby="sed-title" style="display:block;max-width:100%;height:auto;margin:auto">
+  <title id="sed-title">Power-law spectral energy distribution</title>
+  <defs>
+    <marker id="sed-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 L 3 5 Z" fill="#33474b"/>
+    </marker>
+  </defs>
+  <g fill="none" stroke="#33474b" stroke-width="1.5">
+    <path d="M 48 320 H 467" marker-end="url(#sed-arrow)"/>
+    <path d="M 92 359 V 35" marker-end="url(#sed-arrow)"/>
+    <path d="M 128 60 L 425 263" stroke-width="1.2"/>
+  </g>
+  <g fill="#111">
+    <circle cx="162" cy="80" r="3"/><circle cx="218" cy="155" r="3"/>
+    <circle cx="271" cy="132" r="3"/><circle cx="329" cy="225" r="3"/>
+  </g>
+</svg>
+<span class="sed-math-label" style="left:1.4%;top:0%;"><span class="math inline">\(\log S_\nu\)</span></span>
+<span class="sed-math-label" style="left:78.6%;top:84.5%;"><span class="math inline">\(\log \nu\)</span></span>
+<span class="sed-math-label" style="left:57.6%;top:32.5%;"><span class="math inline">\(S_\nu \propto \nu^{-\alpha}\)</span></span>
+</div>
+```

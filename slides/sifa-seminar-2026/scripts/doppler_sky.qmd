@@ -1,0 +1,12 @@
+```{=html}
+<svg class="doppler-sky" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 340" width="500" role="img" aria-labelledby="doppler-sky-title" style="display:block;max-width:100%;height:auto;margin:auto;font-family:inherit;color:inherit">
+  <title id="doppler-sky-title">Redshift and blueshift across the sky</title>
+  <!-- Original Mollweide artwork and colour bar; labels remain vector text. -->
+  <image href="figures/doppler-context/dipole_signal-artwork.png" x="0" y="0" width="500" height="323.6842105"/>
+  <path d="M 345 51 L 349 63 L 362 63 L 352 71 L 356 83 L 345 75 L 334 83 L 338 71 L 328 63 L 341 63 Z" fill="currentColor"/>
+  <g fill="currentColor" font-size="27">
+    <text x="95" y="315" text-anchor="middle">Redshift</text>
+    <text x="405" y="315" text-anchor="middle">Blueshift</text>
+  </g>
+</svg>
+```

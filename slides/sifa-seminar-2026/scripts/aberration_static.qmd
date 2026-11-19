@@ -1,0 +1,13 @@
+```{ojs}
+// Independent slider with presets supplied by the slide’s fragments.
+aberration_create(
+  {
+    static: true,
+    showMarker: false,
+    beta: 0.001,
+    healpixNside: 8,
+    healpixTrigger: ".healpix-step",
+    densityTrigger: ".healpix-density-step"
+  }
+)
+```

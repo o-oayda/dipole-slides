@@ -1,0 +1,24 @@
+::: {.fragment .dipole-decomposition data-fragment-index="7"}
+```{=html}
+<div class="split-equation-source" aria-label="D equals bracket two plus x times one plus alpha bracket times beta">
+  <span class="split-source-lhs math inline">\(\mathcal{D}=\)</span>
+  <span class="math inline">\(\left[\vphantom{x(1+\alpha)}\right.\)</span>
+  <span class="split-source-aberration math inline">\(2\)</span>
+  <span class="split-source-plus math inline">\(+\)</span>
+  <span class="split-source-flux math inline">\(x(1+\alpha)\)</span>
+  <span class="math inline">\(\left.\vphantom{x(1+\alpha)}\right]\)</span>
+  <span class="split-source-beta math inline">\(\beta\)</span>
+</div>
+<div class="split-equation-targets" aria-hidden="true">
+  <span class="split-target-lhs math inline">\(\mathcal{D}=\)</span>
+  <span class="split-target-plus math inline">\(+\)</span>
+  <div class="split-target-aberration"><span class="split-body math inline">\(2\)</span><span class="split-beta math inline">\(\beta\)</span></div>
+  <div class="split-target-flux"><span class="split-body math inline">\(x(1+\alpha)\)</span><span class="split-beta math inline">\(\beta\)</span></div>
+</div>
+```
+:::
+
+::: {.fragment .equation-split-trigger data-fragment-index="8" data-split-duration="750"}
+:::
+
+<script src="scripts/equation_split.js"></script>

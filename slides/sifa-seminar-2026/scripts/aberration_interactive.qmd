@@ -1,0 +1,362 @@
+```{ojs}
+aberration_state = ({ beta: 0, colourMix: 0 })
+```
+
+```{ojs}
+aberration_create = (options = {}) => {
+  const root = html`<div class="aberration-visual">
+    <canvas data-id="aberration-canvas" width="1000" height="780" role="img" aria-label="Source directions on the sky, aberrated toward the black velocity marker as speed increases"></canvas>
+    <label data-id="aberration-control" class="doppler-beta-control">
+      <span>Speed (c)</span>
+      <input class="aberration-beta-slider" type="range" min="0" max="0.999" step="0.001" value="0" aria-label="Aberration speed in units of c">
+      <output></output>
+    </label>
+  </div>`;
+  const canvas = root.querySelector("canvas");
+  const ctx = canvas.getContext("2d");
+  // Draw at twice the CSS resolution for sharp projected points.
+  ctx.scale(2, 2);
+  const input = root.querySelector("input");
+  const output = root.querySelector("output");
+  const radius = 180, cx = 250, cy = 192;
+  // The boost points toward the upper-left marker in this orthographic view.
+  const axis = [-0.5, 0.6, Math.sqrt(0.39)];
+  const viewLatitude = 30 * Math.PI / 180;
+  // Camera above the equator: screen north is the projected north pole.
+  function project([x, y, z]) {
+    return [x, y * Math.cos(viewLatitude) - z * Math.sin(viewLatitude),
+      y * Math.sin(viewLatitude) + z * Math.cos(viewLatitude)];
+  }
+  function gridSegment(a, b) {
+    ctx.globalAlpha = 1 - healpixOpacity;
+    ctx.strokeStyle = (a[2] + b[2]) / 2 >= 0
+      ? "rgba(51, 71, 75, 0.10)" : "rgba(51, 71, 75, 0.035)";
+    ctx.beginPath();
+    ctx.moveTo(cx + radius * a[0], cy - radius * a[1]);
+    ctx.lineTo(cx + radius * b[0], cy - radius * b[1]);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+  const rng = d3.randomLcg(73);
+  // Sample once, uniformly in solid angle. Never transform the previous frame.
+  const sources = Array.from({ length: 1800 }, () => {
+    const z = 2 * rng() - 1;
+    const phi = 2 * Math.PI * rng();
+    const r = Math.sqrt(1 - z * z);
+    const direction = [r * Math.cos(phi), r * Math.sin(phi), z];
+    const mu = direction.reduce((sum, v, i) => sum + v * axis[i], 0);
+    // Normalize gamma(1 + beta*mu) between its theoretical extrema.
+    // Gamma and beta cancel, leaving (1 + mu)/2; neutral is relative,
+    // not the physical zero-redshift frequency.
+    const t = Math.max(0, Math.min(1, (1 + mu) / 2));
+    return { direction, mu, colour: d3.interpolateRgb("#9eb4d3", d3.interpolateRdBu(t)) };
+
+  });
+
+  let colourMix = 0;
+  let colourFrame;
+  let healpixOpacity = 0;
+  let densityOpacity = 0;
+  let densityDomain = null;
+  let densityRaster = null;
+  let densityImage = null;
+  let densityCellIds = null;
+  const healpixPixels = options.healpixNside
+    ? window.HEALPixBoundaries.boundaries(options.healpixNside) : [];
+  // HEALPix uses z as north; the drawing uses y as north. Convert once.
+  const healpixProjected = healpixPixels.map(pixel => pixel.map(([x, y, z]) => project([x, z, -y])));
+
+  function aberrate(n, mu, beta) {
+    const denominator = 1 + beta * mu;
+    const muPrime = (mu + beta) / denominator;
+    const transverse = Math.sqrt(1 - beta * beta);
+    return n.map((v, i) => muPrime * axis[i] + transverse * (v - mu * axis[i]) / denominator);
+  }
+  function occupancy(beta) {
+    const counts = new Uint32Array(healpixPixels.length);
+    for (const {direction, mu} of sources) {
+      const [x, y, z] = aberrate(direction, mu, beta);
+      // Invert the HEALPix-to-drawing coordinate conversion, before projection.
+      counts[HEALPixBoundaries.vectorPixel(options.healpixNside, [x, -z, y])]++;
+    }
+    return counts;
+  }
+  function freezeDensityScale() {
+    const counts = occupancy(input.valueAsNumber);
+    densityDomain = [Math.min(...counts), Math.max(...counts)];
+    root.dataset.densityDomain = JSON.stringify(densityDomain);
+    root.dataset.densityReferenceBeta = input.value;
+  }
+  function prepareDensityRaster() {
+    if (densityRaster) return;
+    densityRaster = document.createElement("canvas");
+    densityRaster.width = densityRaster.height = 720;
+    densityImage = densityRaster.getContext("2d").createImageData(720, 720);
+    densityCellIds = new Int32Array(720 * 720).fill(-1);
+    // Cache an inverse orthographic projection of the front hemisphere.
+    // Cell assignment at each screen pixel handles curved boundaries and limb
+    // clipping exactly, without joining partially hidden cells with chords.
+    for (let row = 0; row < 720; row++) for (let col = 0; col < 720; col++) {
+      const x = (col + 0.5 - 360) / 360, y = (360 - row - 0.5) / 360;
+      const r2 = x * x + y * y;
+      if (r2 > 1) continue;
+      const z = Math.sqrt(1 - r2);
+      const worldY = y * Math.cos(viewLatitude) + z * Math.sin(viewLatitude);
+      const worldZ = -y * Math.sin(viewLatitude) + z * Math.cos(viewLatitude);
+      densityCellIds[row * 720 + col] = HEALPixBoundaries.vectorPixel(options.healpixNside, [x, -worldZ, worldY]);
+    }
+  }
+  function drawDensity(beta) {
+    prepareDensityRaster();
+    const counts = occupancy(beta);
+    const [min, max] = densityDomain;
+    const colours = Array.from(counts, count => d3.rgb(d3.interpolateViridis(
+      Math.max(0, Math.min(1, (count - min) / (max - min || 1)))
+    )));
+    for (let i = 0; i < densityCellIds.length; i++) {
+      const id = densityCellIds[i];
+      if (id < 0) continue;
+      const colour = colours[id], j = i * 4;
+      densityImage.data[j] = colour.r;
+      densityImage.data[j + 1] = colour.g;
+      densityImage.data[j + 2] = colour.b;
+      densityImage.data[j + 3] = 255;
+    }
+    densityRaster.getContext("2d").putImageData(densityImage, 0, 0);
+    ctx.globalAlpha = densityOpacity;
+    ctx.drawImage(densityRaster, cx - radius, cy - radius, radius * 2, radius * 2);
+    const legend = ctx.createLinearGradient(0, 272, 0, 92);
+    for (let i = 0; i <= 20; i++) legend.addColorStop(i / 20, d3.interpolateViridis(i / 20));
+    ctx.fillStyle = legend;
+    ctx.fillRect(450, 92, 12, 180);
+    ctx.fillStyle = "#33474b";
+    ctx.font = "11px Fira Sans, sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText(String(max), 467, 100);
+    ctx.fillText(String(min), 467, 272);
+    ctx.font = "9px Fira Sans, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("Sources / pixel", 459, 80);
+    ctx.globalAlpha = 1;
+    root.dataset.densityCountTotal = String(counts.reduce((sum, n) => sum + n, 0));
+  }
+
+  function draw() {
+    const beta = input.valueAsNumber;
+    root.value = beta;
+    root.dataset.colourMix = colourMix.toFixed(3);
+    if (!options.static && window.Reveal.getCurrentSlide() === root.closest("section")) {
+      aberration_state.beta = beta;
+      // The detail slide's split only changes the colours on that slide.
+      if (!options.neutralColourTrigger) aberration_state.colourMix = colourMix;
+    }
+    output.value = beta.toFixed(3);
+    ctx.clearRect(0, 0, 500, 390);
+    root.dataset.densityOpacity = densityOpacity.toFixed(3);
+    ctx.globalAlpha = 1 - densityOpacity;
+    // A quiet silhouette gives the transparent point cloud a spherical edge.
+    const silhouette = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+    silhouette.addColorStop(0, "rgba(51, 71, 75, 0.012)");
+    silhouette.addColorStop(0.94, "rgba(51, 71, 75, 0.025)");
+    silhouette.addColorStop(0.985, "rgba(51, 71, 75, 0.05)");
+    silhouette.addColorStop(1, "rgba(51, 71, 75, 0)");
+    ctx.fillStyle = silhouette;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    if (densityOpacity > 0) drawDensity(beta);
+    // Sparse meridians on the reference sphere, with north up on the page.
+    // These show viewing geometry; they do not move with the source population.
+    const pole = [0, 1, 0];
+    const east = [1, 0, 0];
+    const depthAxis = [0, 0, 1];
+    ctx.lineWidth = 0.65;
+    for (let meridian = 0; meridian < 6; meridian++) {
+      const phi = meridian * Math.PI / 3;
+      let previous = null;
+      for (let j = 0; j <= 120; j++) {
+        const theta = j * Math.PI / 120;
+        const point = project(pole.map((v, i) => Math.cos(theta) * v +
+          Math.sin(theta) * (Math.cos(phi) * east[i] + Math.sin(phi) * depthAxis[i])));
+        if (previous) gridSegment(previous, point);
+        previous = point;
+      }
+    }
+    // Sample full latitude circles so the raised camera reveals their curvature.
+    for (const latitude of [-60, -30, 0, 30, 60]) {
+      const angle = latitude * Math.PI / 180;
+      let previous = null;
+      for (let j = 0; j <= 180; j++) {
+        const phi = j * 2 * Math.PI / 180;
+        const point = project([Math.cos(angle) * Math.cos(phi),
+          Math.sin(angle), Math.cos(angle) * Math.sin(phi)]);
+        if (previous) gridSegment(previous, point);
+        previous = point;
+      }
+    }
+    // Fixed observed-sky pixels: sources move between cells as beta changes.
+    // Subdued back-side lines retain the transparent-sphere appearance.
+    if (healpixOpacity > 0) {
+      root.dataset.healpixOpacity = healpixOpacity.toFixed(3);
+      ctx.lineWidth = 0.8;
+      for (const pixel of healpixProjected) {
+        for (let i = 1; i < pixel.length; i++) {
+          const a = pixel[i - 1], b = pixel[i];
+          ctx.strokeStyle = (a[2] + b[2]) / 2 >= 0
+            ? `rgba(51, 71, 75, ${0.5 * healpixOpacity * (1 - densityOpacity)})`
+            : `rgba(51, 71, 75, ${0.09 * healpixOpacity * (1 - densityOpacity)})`;
+          ctx.beginPath();
+          ctx.moveTo(cx + radius * a[0], cy - radius * a[1]);
+          ctx.lineTo(cx + radius * b[0], cy - radius * b[1]);
+          ctx.stroke();
+        }
+      }
+    } else root.dataset.healpixOpacity = "0.000";
+    ctx.fillStyle = "#9eb4d3";
+    for (const { direction: n, mu, colour } of sources) {
+      ctx.fillStyle = colour(beta === 0 ? 0 : colourMix);
+      const observed = project(aberrate(n, mu, beta));
+      // Project both hemispheres, matching the original transparent sphere.
+      // Positive z faces the viewer. Use observer-frame depth so the cue
+      // follows each source as aberration moves it around the sphere.
+      const depth = Math.max(0, Math.min(1, (observed[2] + 1) / 2));
+      ctx.globalAlpha = (0.2 + 0.8 * depth) * (1 - densityOpacity);
+      const pointRadius = 1.5 + 1.6 * depth;
+      ctx.beginPath();
+      ctx.arc(cx + radius * observed[0], cy - radius * observed[1], pointRadius, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    if (options.showMarker !== false) {
+      const marker = project(axis);
+      const sx = cx + radius * marker[0], sy = cy - radius * marker[1];
+      ctx.fillStyle = "#000";
+      ctx.beginPath();
+      for (let i = 0; i < 10; i++) {
+        const angle = -Math.PI / 2 + i * Math.PI / 5;
+        const r = i % 2 ? 7 : 17;
+        const x = sx + r * Math.cos(angle), y = sy + r * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+  if (options.static) {
+    input.value = String(options.beta ?? 0.3);
+    colourMix = options.colourMix ?? 0;
+    draw();
+    root.querySelector("label").removeAttribute("data-id");
+    input.addEventListener("input", draw);
+    if (options.healpixTrigger) {
+      let overlayFrame;
+      function overlayVisible() {
+        return root.closest("section")?.querySelector(options.healpixTrigger)?.classList.contains("visible");
+      }
+      function overlayChange(event) {
+        const section = root.closest("section");
+        const densityStep = options.densityTrigger ? section?.querySelector(options.densityTrigger) : null;
+        if (event.fragment !== section?.querySelector(options.healpixTrigger) && event.fragment !== densityStep) return;
+        cancelAnimationFrame(overlayFrame);
+        const densityTo = densityStep?.classList.contains("visible") ? 1 : 0;
+        if (event.fragment === densityStep && densityTo) freezeDensityScale();
+        const densityFrom = densityOpacity;
+        const from = healpixOpacity, to = overlayVisible() ? 1 : 0;
+        const started = performance.now();
+        function tick(now) {
+          const t = Math.min(1, (now - started) / 600);
+          const eased = t * t * (3 - 2 * t);
+          healpixOpacity = from + (to - from) * eased;
+          densityOpacity = densityFrom + (densityTo - densityFrom) * eased;
+          draw();
+          if (t < 1) overlayFrame = requestAnimationFrame(tick);
+        }
+        overlayFrame = requestAnimationFrame(tick);
+      }
+      function overlaySync() {
+        cancelAnimationFrame(overlayFrame);
+        healpixOpacity = overlayVisible() ? 1 : 0;
+        densityOpacity = options.densityTrigger && root.closest("section")?.querySelector(options.densityTrigger)?.classList.contains("visible") ? 1 : 0;
+        if (densityOpacity && !densityDomain) freezeDensityScale();
+        draw();
+      }
+      Reveal.on("fragmentshown", overlayChange);
+      Reveal.on("fragmenthidden", overlayChange);
+      Reveal.on("slidechanged", overlaySync);
+      invalidation.then(() => {
+        cancelAnimationFrame(overlayFrame);
+        Reveal.off("fragmentshown", overlayChange);
+        Reveal.off("fragmenthidden", overlayChange);
+        Reveal.off("slidechanged", overlaySync);
+      });
+      overlaySync();
+    }
+    canvas.removeAttribute("data-id");
+    canvas.setAttribute("aria-label", "Source directions on a sphere, with aberration at beta = " + input.value);
+    return root;
+  }
+
+  input.addEventListener("input", () => {
+    draw();
+    root.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  const colourSelector = '[data-aberration-color="true"]';
+  const colourStep = () => root.closest("section")?.querySelector(colourSelector);
+  const neutralStep = () => options.neutralColourTrigger
+    ? root.closest("section")?.querySelector(options.neutralColourTrigger)
+    : null;
+  function transitionColour(target, delay = 0) {
+    cancelAnimationFrame(colourFrame);
+    const from = colourMix;
+    const start = performance.now() + delay;
+    function tick(now) {
+      const progress = Math.max(0, Math.min(1, (now - start) / 600));
+      const eased = progress * progress * (3 - 2 * progress);
+      colourMix = from + (target - from) * eased;
+      draw();
+      if (progress < 1) colourFrame = requestAnimationFrame(tick);
+    }
+    colourFrame = requestAnimationFrame(tick);
+  }
+  function shown(event) {
+    if (event.fragment === colourStep()) {
+      // Let the preset slider finish resetting to 0.5c before colouring.
+      const steps = event.fragment.closest(".fragment-slider-steps");
+      transitionColour(1, Number(steps.dataset.sliderDuration) || 600);
+    } else if (event.fragment === neutralStep()) {
+      transitionColour(0, Number(event.fragment.dataset.splitDuration) || 0);
+    }
+  }
+  function hidden(event) {
+    if (event.fragment === colourStep()) transitionColour(0);
+    else if (event.fragment === neutralStep()) transitionColour(aberration_state.colourMix);
+  }
+  function syncColour() {
+    cancelAnimationFrame(colourFrame);
+    if (!options.static && window.Reveal.getCurrentSlide() === root.closest("section")) {
+      input.value = String(aberration_state.beta);
+      colourMix = neutralStep()?.classList.contains("visible") ? 0 : aberration_state.colourMix;
+      draw();
+      root.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }
+  window.Reveal.on("fragmentshown", shown);
+  window.Reveal.on("fragmenthidden", hidden);
+  window.Reveal.on("slidechanged", syncColour);
+  invalidation.then(() => {
+    cancelAnimationFrame(colourFrame);
+    window.Reveal.off("fragmentshown", shown);
+    window.Reveal.off("fragmenthidden", hidden);
+    window.Reveal.off("slidechanged", syncColour);
+  });
+  input.value = String(aberration_state.beta);
+  colourMix = aberration_state.colourMix;
+  draw();
+  return root;
+}
+```
+
+```{ojs}
+viewof aberration_beta = aberration_create()
+```
